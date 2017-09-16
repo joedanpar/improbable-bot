@@ -1,3 +1,4 @@
+#!groovy
 /*
  * This file is part of Improbable Bot.
  *
@@ -27,13 +28,13 @@ pipeline {
                 archive includes: 'target/*.jar'
             }
         }
-        /*stage('Deploy') {
+        stage('Deploy') {
             when {
                 branch 'master'
             }
             steps {
                 build job: 'UpdateImprobabot', wait: false
             }
-        }*/
+        }
     }
 }

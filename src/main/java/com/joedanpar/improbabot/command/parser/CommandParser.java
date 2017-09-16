@@ -66,7 +66,9 @@ public class CommandParser {
         val splitMsg = message.split(" ");
 
         if (splitMsg.length > 1) {
-            return splitMsg[1] != null ? splitMsg[1].toLowerCase() : EMPTY;
+            return splitMsg[1] != null
+                    ? splitMsg[1].toLowerCase()
+                    : EMPTY;
         }
 
         return null;
