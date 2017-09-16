@@ -16,6 +16,7 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.command.parser;
 
+import com.joedanpar.improbabot.Improbabot;
 import com.joedanpar.improbabot.command.AbstractCommand;
 import com.joedanpar.improbabot.command.HelpCommand;
 import lombok.Getter;
@@ -26,7 +27,6 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.joedanpar.improbabot.Improbabot.getJda;
 import static com.joedanpar.improbabot.util.MessageHelper.sendMessage;
 import static com.joedanpar.improbabot.util.Reference.ADMIN_SERVER_ID;
 import static com.joedanpar.improbabot.util.Reference.ADMIN_TEST_CHANNEL;
@@ -75,6 +75,6 @@ public class CommandParser {
     }
 
     private MessageChannel getChannel(final String channel) {
-        return getJda().getGuildById(ADMIN_SERVER_ID).getTextChannelById(channel);
+        return Improbabot.getJda().getGuildById(ADMIN_SERVER_ID).getTextChannelById(channel);
     }
 }
