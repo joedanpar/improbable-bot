@@ -16,7 +16,7 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.listeners;
 
-import com.joedanpar.improbabot.command.parser.CommandParser;
+import com.joedanpar.improbabot.parser.CommandParser;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;

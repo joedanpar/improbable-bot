@@ -31,7 +31,7 @@ public abstract class AbstractCommand {
     String  description;
     String  name;
     boolean hidden;
-    RolePermission permissionLevel = EVERYONE;
+    protected RolePermission permissionLevel = EVERYONE;
 
     public void execute(final MessageReceivedEvent event) {
         if (userHasPermission(event.getGuild(), event.getMember())) {
