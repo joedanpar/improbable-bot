@@ -16,4 +16,7 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.listeners;
 
-public class ReactionListener {}
+import net.dv8tion.jda.core.hooks.ListenerAdapter;
+
+public class ReactionListener extends ListenerAdapter {
+}

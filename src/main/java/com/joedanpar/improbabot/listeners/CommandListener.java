@@ -22,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
+import static com.joedanpar.improbabot.util.Reference.ADMIN_TEST_CHANNEL;
+
 @RequiredArgsConstructor
 public class CommandListener extends ListenerAdapter {
 
@@ -36,7 +38,7 @@ public class CommandListener extends ListenerAdapter {
     }
 
     private boolean isValidCommand(final MessageReceivedEvent event) {
-        return (!debug || Reference.ADMIN_TEST_CHANNEL.equalsIgnoreCase(event.getChannel().getId())) &&
-               !event.getAuthor().isBot() && event.getMessage().getContent().toLowerCase().contains("@improbabot");
+        return (!debug || ADMIN_TEST_CHANNEL.equalsIgnoreCase(event.getChannel().getId())) &&
+               !event.getAuthor().isBot() && event.getMessage().getContent().toLowerCase().startsWith("@improbabot");
     }
 }

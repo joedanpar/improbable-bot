@@ -16,19 +16,22 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.command.parser;
 
-import com.joedanpar.improbabot.Improbabot;
 import com.joedanpar.improbabot.command.AbstractCommand;
 import com.joedanpar.improbabot.command.HelpCommand;
-import com.joedanpar.improbabot.util.MessageHelper;
-import com.joedanpar.improbabot.util.Reference;
 import lombok.Getter;
 import lombok.val;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.joedanpar.improbabot.Improbabot.getJda;
+import static com.joedanpar.improbabot.util.MessageHelper.sendMessage;
+import static com.joedanpar.improbabot.util.Reference.ADMIN_SERVER_ID;
+import static com.joedanpar.improbabot.util.Reference.ADMIN_TEST_CHANNEL;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class CommandParser {
 
@@ -46,14 +49,14 @@ public class CommandParser {
     public void parseEvent(final MessageReceivedEvent event) {
         val message = event.getMessage().getContent();
 
-        if (StringUtils.isNotBlank(message)) {
+        if (isNotBlank(message)) {
             val command = commands.get(getCommand(message));
 
             if (command != null) {
                 try {
                     command.execute(event);
                 } catch (Exception e) {
-                    MessageHelper.sendMessage(getChannel(Reference.ADMIN_TEST_CHANNEL), e.toString() + "\n" + e.getStackTrace()[0]);
+                    sendMessage(getChannel(ADMIN_TEST_CHANNEL), e.toString() + "\n" + e.getStackTrace()[0]);
                 }
             }
         }
@@ -63,13 +66,13 @@ public class CommandParser {
         val splitMsg = message.split(" ");
 
         if (splitMsg.length > 1) {
-            return splitMsg[1] != null ? splitMsg[1].toLowerCase() : StringUtils.EMPTY;
+            return splitMsg[1] != null ? splitMsg[1].toLowerCase() : EMPTY;
         }
 
         return null;
     }
 
     private MessageChannel getChannel(final String channel) {
-        return Improbabot.getJda().getGuildById(Reference.ADMIN_SERVER_ID).getTextChannelById(channel);
+        return getJda().getGuildById(ADMIN_SERVER_ID).getTextChannelById(channel);
     }
 }

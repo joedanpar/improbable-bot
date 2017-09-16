@@ -16,11 +16,12 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.command;
 
+import com.joedanpar.improbabot.util.MessageHelper;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class HelpCommand extends AbstractCommand {
     @Override
     protected void executeCommand(final MessageReceivedEvent event) {
-
+        MessageHelper.sendMessage(event.getChannel(), "Help is on the way, citizen!");
     }
 }
