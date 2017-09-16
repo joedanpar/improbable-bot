@@ -1,3 +1,15 @@
+/src/main/resources/improbabot.properties
+
+# IDEA Files
+*.iml
+**/.idea/
+
+# Keep Run Configurations
+!/.idea/runConfigurations/
+
+**/target/
+**/logs/
+
 # Compiled class file
 *.class
 
