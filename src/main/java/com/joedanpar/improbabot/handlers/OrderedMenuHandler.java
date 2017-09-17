@@ -18,15 +18,12 @@ package com.joedanpar.improbabot.handlers;
 
 import com.jagrosh.jdautilities.menu.MenuBuilder;
 import com.jagrosh.jdautilities.menu.orderedmenu.OrderedMenuBuilder;
-import lombok.val;
 
 import java.util.Map;
 
 public class OrderedMenuHandler extends AbstractMenuHandler<OrderedMenuBuilder> {
     @Override
     public OrderedMenuBuilder configureBuilder(final MenuBuilder builder, final Map<String, Object> parameters) {
-        val _builder = super.configureBuilder(builder, parameters);
-
-        return _builder;
+        return super.configureBuilder(builder, parameters);
     }
 }
