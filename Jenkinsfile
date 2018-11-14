@@ -23,6 +23,13 @@ pipeline {
                 bat 'mvnw.cmd clean package'
             }
         }
+        stage('Sonar') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: '51fc6c9c-7764-40e5-af76-e88a00b57aad', passwordVariable: 'token', usernameVariable: 'username')]) {
+                    bat "mvnw.cmd sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${token} -Dsonar.organization=${username}-github -Dsonar.projectKey=${username}_improbable-bot"
+                }
+            }
+        }
         stage('Archive') {
             steps {
                 archive includes: 'target/*.jar'

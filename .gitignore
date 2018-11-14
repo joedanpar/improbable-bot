@@ -1,4 +1,5 @@
-/src/main/resources/improbabot.properties
+/config
+/data
 
 # IDEA Files
 *.iml

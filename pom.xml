@@ -16,32 +16,51 @@
   ~    along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.5.RELEASE</version>
+    </parent>
 
     <groupId>com.joedanpar</groupId>
     <artifactId>improbable-bot</artifactId>
     <version>0.0.1</version>
+    <name>Improbable Bot</name>
+
+    <scm>
+        <connection>scm:git:https://github.com/joedanpar/Improbabot.git</connection>
+    </scm>
 
     <properties>
         <build.numer>SNAPSHOT</build.numer>
 
         <jdk.version>1.8</jdk.version>
 
-        <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
         <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
+        <maven-spring-boot-plugin.version>2.0.2.RELEASE</maven-spring-boot-plugin.version>
 
         <commons-collections.version>4.1</commons-collections.version>
         <commons-lang.version>3.6</commons-lang.version>
-        <commons-io.version>2.5</commons-io.version>
+        <commons-io.version>2.6</commons-io.version>
+        <commons-text.version>1.5</commons-text.version>
+        <dice.version>1.2.1</dice.version>
         <flyway.version>4.2.0</flyway.version>
-        <jda.version>3.3.0_266</jda.version>
+        <httpclient.version>4.5.6</httpclient.version>
+        <jackson-databind.version>2.9.7</jackson-databind.version>
+        <jda.version>3.8.1_437</jda.version>
         <jda-utilities.version>1.7</jda-utilities.version>
         <log4j.version>2.8.2</log4j.version>
-        <lombok.version>1.16.18</lombok.version>
-        <sqlite-jdbc.version>3.19.3</sqlite-jdbc.version>
+        <lombok.version>1.16.20</lombok.version>
+        <recastai-java-api.version>0.0.1</recastai-java-api.version>
+        <sqlite-jdbc.version>3.21.0.1</sqlite-jdbc.version>
+        <sqlite-dialect.version>0.1.0</sqlite-dialect.version>
     </properties>
 
     <dependencies>
@@ -81,11 +100,6 @@
             <version>${sqlite-jdbc.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>${flyway.version}</version>
-        </dependency>
-        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
@@ -95,6 +109,58 @@
             <artifactId>commons-collections4</artifactId>
             <version>${commons-collections.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.bernardomg.tabletop</groupId>
+            <artifactId>dice</artifactId>
+            <version>${dice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.gwenn</groupId>
+            <artifactId>sqlite-dialect</artifactId>
+            <version>${sqlite-dialect.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>${commons-text.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.nincodedo</groupId>
+            <artifactId>recastai-java-api</artifactId>
+            <version>${recastai-java-api.version}</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -102,6 +168,18 @@
             <id>jcenter</id>
             <name>jcenter-bintray</name>
             <url>http://jcenter.bintray.com</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-nincodedo-maven</id>
+            <name>bintray</name>
+            <url>https://dl.bintray.com/nincodedo/maven</url>
         </repository>
     </repositories>
 
@@ -122,29 +200,33 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven-shade-plugin.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${maven-spring-boot-plugin.version}</version>
                 <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <mainClass>com.joedanpar.improbabot.ImprobabotRunner</mainClass>
+                    <layout>ZIP</layout>
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>package</phase>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>repackage</goal>
                         </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.joedanpar.improbabot.Improbabot</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven-release-plugin.version}</version>
+                    <configuration>
+                        <tagNameFormat>@{project.version}</tagNameFormat>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>
