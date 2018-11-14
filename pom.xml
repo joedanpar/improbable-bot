@@ -189,6 +189,7 @@
     </repositories>
 
     <build>
+        <finalName>improbabot</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
