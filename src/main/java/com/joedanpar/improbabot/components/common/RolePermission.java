@@ -19,7 +19,7 @@ package com.joedanpar.improbabot.components.common;
 import lombok.Getter;
 
 public enum RolePermission {
-    OWNER(3, "${ownerId}"), BOT_ADMIN(2, "admin"), GAME_MASTER(1, "game master"), EVERYONE(0, "@everyone");
+    OWNER(3, "${ownerId}"), ADMIN(2, "admin"), GAME_MASTER(1, "game master"), EVERYONE(0, "@everyone");
 
     @Getter
     int roleLevel;
