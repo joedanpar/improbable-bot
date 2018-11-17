@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.joedanpar.improbabot.components.config.ConfigConstants.CONVERSATION_CHANNELS;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -65,8 +66,7 @@ public class CommandParser {
                     reportError(event, e);
                 }
             } else {
-                val channelList = configService.getValuesByName(event.getGuild().getId(),
-                                                                ConfigConstants.CONVERSATION_CHANNELS);
+                val channelList = configService.getValuesByName(event.getGuild().getId(), CONVERSATION_CHANNELS);
                 if (!channelList.contains(event.getChannel().getId())) {
                     messageHelper.reactUnknownResponse(event.getMessage());
                 }
