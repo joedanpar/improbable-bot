@@ -14,12 +14,10 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.config;
+package com.joedanpar.improbabot.components.common;
 
-import lombok.experimental.UtilityClass;
-
-@UtilityClass
-public class ConfigConstants {
-    public static final String ERROR_ANNOUNCE_CHANNEL = "errorAnnounceChannel";
-    public static final String CONVERSATION_CHANNELS  = "conversationChannels";
+class Emojis {
+    static final String CHECK_MARK    = "✅";
+    static final String QUESTION_MARK = "❔";
+    static final String CROSS_X       = "❌";
 }

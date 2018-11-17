@@ -24,16 +24,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+import static com.joedanpar.improbabot.components.common.Emojis.*;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 
 @Component
 public class MessageHelper {
-
-    private static final String CHECK_MARK    = "✅";
-    private static final String QUESTION_MARK = "❔";
-    private static final String CROSS_X       = "❌";
 
     public void sendMessage(final MessageChannel channel, final String message, final String... parameters) {
         sendMessage(channel, message, asList(parameters));

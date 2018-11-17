@@ -17,7 +17,6 @@
 package com.joedanpar.improbabot.components.command;
 
 import com.joedanpar.improbabot.components.common.MessageHelper;
-import com.joedanpar.improbabot.components.config.ConfigConstants;
 import com.joedanpar.improbabot.components.config.ConfigService;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -33,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.joedanpar.improbabot.components.config.ConfigConstants.CONVERSATION_CHANNELS;
+import static com.joedanpar.improbabot.components.config.ConfigConstants.ERROR_ANNOUNCE_CHANNEL;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -87,7 +87,7 @@ public class CommandParser {
     }
 
     private void reportError(final MessageReceivedEvent event, final Exception e) {
-        val config = configService.getConfigByName(event.getGuild().getId(), ConfigConstants.ERROR_ANNOUNCE_CHANNEL);
+        val config = configService.getConfigByName(event.getGuild().getId(), ERROR_ANNOUNCE_CHANNEL);
         if (config.size() > 0) {
             messageHelper.sendMessage(getChannel(event.getJDA(), event.getGuild().getId(), config.get(0).getValue()),
                                       e.toString() +
