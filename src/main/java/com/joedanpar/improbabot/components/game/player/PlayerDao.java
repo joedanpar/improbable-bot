@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.config;
+package com.joedanpar.improbabot.components.game.player;
 
 import com.joedanpar.improbabot.components.common.GenericDao;
 import lombok.extern.log4j.Log4j2;
@@ -24,39 +24,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
-
 @Log4j2
 @Repository
 @Transactional
-public class ConfigDao extends GenericDao<Config> {
+public class PlayerDao extends GenericDao<Player> {
 
     @Autowired
-    public ConfigDao(final SessionFactory sessionFactory) {
+    public PlayerDao(final SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
-    List<String> getValuesByKey(final String serverId, final String configName) {
-        log.debug("Getting config values for {} {}", serverId, configName);
-        return getAllObjectsByName(serverId, configName)
-                .stream()
-                .map(Config::getValue)
-                .collect(toList());
+    void removeObjectByName(final String serverId, final String playerName) {
+        log.debug("Removing player \"{}\" for {}", playerName, serverId);
+        removeObject(getPlayerByName(serverId, playerName));
     }
 
-    List<Config> getAllObjectsByName(final String serverId, final String configName) {
-        log.debug("Getting configs for {} {}", serverId, configName);
+    Player getPlayerByName(final String serverId, final String playerName) {
+        log.debug("Getting player \"{}\" for {} {}", playerName, serverId);
         try (val session = sessionFactory.openSession()) {
-            val query = session.createQuery("FROM Config where serverId = :serverId and key = :configName", getType());
+            val query = session.createQuery("FROM Config where serverId = :serverId and name = :playerName", getType());
             query.setParameter("serverId", serverId);
-            query.setParameter("configName", configName);
-            return query.getResultList();
+            query.setParameter("playerName", playerName);
+            return query.getSingleResult();
         }
-    }
-
-    void removeObject(final String serverId, final String configName, final String configValue) {
-        removeObject(new ConfigBuilder().setServerId(serverId).setKey(configName).setValue(configValue).build());
     }
 }

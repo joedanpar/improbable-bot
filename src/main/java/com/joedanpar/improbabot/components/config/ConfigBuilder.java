@@ -16,34 +16,33 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.config;
 
-import lombok.Data;
+import static org.springframework.util.StringUtils.isEmpty;
 
-import javax.persistence.*;
-import java.io.Serializable;
+public class ConfigBuilder {
 
-@Data
-@Entity
-@Table(name = "Config",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"ServerId", "Key"}))
-public class Config implements Serializable {
-    @Id
-    @GeneratedValue
-    @Column(name = "Id", nullable = false)
-    private int    id;
-    @Column(name = "ServerId", nullable = false)
     private String serverId;
-    @Column(name = "Key", nullable = false)
     private String key;
-    @Column(name = "Value")
     private String value;
 
-    public Config() {
-        //no-op
+    public Config build() {
+        if (isEmpty(serverId)) throw new IllegalArgumentException("A serverId is required.");
+        if (isEmpty(key)) throw new IllegalArgumentException("A key is required.");
+        if (isEmpty(value)) throw new IllegalArgumentException("A value is required.");
+        return new Config(serverId, key, value);
     }
 
-    Config(final String serverId, final String key, final String value) {
+    public ConfigBuilder setServerId(final String serverId) {
         this.serverId = serverId;
+        return this;
+    }
+
+    public ConfigBuilder setKey(final String key) {
         this.key = key;
+        return this;
+    }
+
+    public ConfigBuilder setValue(final String value) {
         this.value = value;
+        return this;
     }
 }

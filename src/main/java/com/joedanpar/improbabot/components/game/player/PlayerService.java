@@ -14,62 +14,50 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.config;
+package com.joedanpar.improbabot.components.game.player;
 
 import com.joedanpar.improbabot.components.common.GenericService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.TransactionRequiredException;
-import java.util.List;
-import java.util.Optional;
 
 @Log4j2
 @Service
-public class ConfigService extends GenericService<ConfigDao, Config> {
+public class PlayerService extends GenericService<PlayerDao, Player> {
 
-    public ConfigService(final ConfigDao dao) {
+    @Autowired
+    public PlayerService(final PlayerDao dao) {
         super(dao);
     }
 
     @Transactional
-    public List<Config> getConfig(final String serverId, final String name) {
-        return getDao().getAllObjectsByName(serverId, name);
-    }
-
-    public Optional<String> getValueByName(final String serverId, final String configName) {
-        return Optional.ofNullable(getValuesByName(serverId, configName).get(0));
+    public Player getObject(final String serverId, final String name) {
+        return getDao().getPlayerByName(serverId, name);
     }
 
     @Transactional
-    public List<String> getValuesByName(final String serverId, final String configName) {
-        return getDao().getValuesByKey(serverId, configName);
+    public void removeObject(final String serverId, final String name) {
+        getDao().removeObjectByName(serverId, name);
     }
 
     @Transactional
-    public void removeConfig(final Config config) {
-        getDao().removeObject(config);
+    public boolean createObject(final String serverId, final String name) {
+        return createObject(new PlayerBuilder()
+                                    .setServerId(serverId)
+                                    .setName(name)
+                                    .build());
     }
 
     @Transactional
-    public void removeConfig(final String serverId, final String configName, final String configValue) {
-        getDao().removeObject(serverId, configName, configValue);
-    }
-
-    @Transactional
-    public boolean createObject(final String serverId, final String configName, final String configValue) {
-        return createObject(new ConfigBuilder().setServerId(serverId).setKey(configName).setValue(configValue).build());
-    }
-
-    @Transactional
-    public boolean createObject(final Config config) {
+    boolean createObject(final Player player) {
         try {
-            getDao().saveObject(config);
+            saveObject(player);
         } catch (EntityExistsException | TransactionRequiredException e) {
-            log.error("Failed to create config {} with value {} for server {}", config.getKey(), config.getValue(),
-                      config.getServerId());
+            log.error("Failed to add player \"{}\" for server {}", player.getName(), player.getServerId());
             log.error(e);
             return false;
         }

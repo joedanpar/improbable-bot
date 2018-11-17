@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.config;
+package com.joedanpar.improbabot.components.game.player;
 
 import lombok.Data;
 
@@ -23,27 +23,26 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "Config",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"ServerId", "Key"}))
-public class Config implements Serializable {
+@Table(name = "Player",
+       uniqueConstraints = @UniqueConstraint(columnNames = {"ServerId", "Name"}))
+public class Player implements Serializable {
+
     @Id
     @GeneratedValue
     @Column(name = "Id", nullable = false)
     private int    id;
     @Column(name = "ServerId", nullable = false)
     private String serverId;
-    @Column(name = "Key", nullable = false)
-    private String key;
-    @Column(name = "Value")
-    private String value;
+    @Column(name = "Name", nullable = false)
+    private String name;
 
-    public Config() {
+    public Player() {
         //no-op
     }
 
-    Config(final String serverId, final String key, final String value) {
+    Player(final String serverId, final String name) {
         this.serverId = serverId;
-        this.key = key;
-        this.value = value;
+        this.name = name;
     }
+
 }

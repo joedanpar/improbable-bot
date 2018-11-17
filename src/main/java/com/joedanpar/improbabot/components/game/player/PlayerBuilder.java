@@ -14,36 +14,29 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.config;
+package com.joedanpar.improbabot.components.game.player;
 
-import lombok.Data;
+import static java.util.Objects.isNull;
+import static org.springframework.util.StringUtils.isEmpty;
 
-import javax.persistence.*;
-import java.io.Serializable;
+public class PlayerBuilder {
 
-@Data
-@Entity
-@Table(name = "Config",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"ServerId", "Key"}))
-public class Config implements Serializable {
-    @Id
-    @GeneratedValue
-    @Column(name = "Id", nullable = false)
-    private int    id;
-    @Column(name = "ServerId", nullable = false)
     private String serverId;
-    @Column(name = "Key", nullable = false)
-    private String key;
-    @Column(name = "Value")
-    private String value;
+    private String name;
 
-    public Config() {
-        //no-op
+    public Player build() {
+        if (isEmpty(name)) throw new IllegalArgumentException("A name is required.");
+        if (isNull(serverId)) throw new IllegalArgumentException("A serverId is required.");
+        return new Player(serverId, name);
     }
 
-    Config(final String serverId, final String key, final String value) {
+    public PlayerBuilder setServerId(final String serverId) {
         this.serverId = serverId;
-        this.key = key;
-        this.value = value;
+        return this;
+    }
+
+    public PlayerBuilder setName(final String name) {
+        this.name = name;
+        return this;
     }
 }

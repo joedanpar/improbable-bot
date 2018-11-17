@@ -16,26 +16,30 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.common;
 
+import lombok.Getter;
 import lombok.val;
 import org.hibernate.SessionFactory;
 import org.springframework.core.GenericTypeResolver;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+import static lombok.AccessLevel.PROTECTED;
+
 public class GenericDao<T> {
-    private final Class<T>       generic;
+
+    @Getter
+    private final Class<T>       type;
+    @Getter(PROTECTED)
     protected     SessionFactory sessionFactory;
 
     public GenericDao(final SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.generic = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), GenericDao.class);
+        this.type = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), GenericDao.class);
     }
 
     public List<T> getAllObjectsByServerId(final String serverId) {
         try (val session = sessionFactory.openSession()) {
-            val query = session.createQuery("FROM " + generic.getName() + " where serverId = :serverId", generic);
+            val query = session.createQuery("FROM " + type.getName() + " where serverId = :serverId", type);
             query.setParameter("serverId", serverId);
 
             return query.getResultList();
@@ -45,7 +49,7 @@ public class GenericDao<T> {
     public void saveObject(final T obj) {
         try (val session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.persist(obj);
+            session.saveOrUpdate(obj);
             session.getTransaction().commit();
         }
     }
@@ -62,7 +66,7 @@ public class GenericDao<T> {
 
     public List<T> getAllObjects() {
         try (val session = sessionFactory.openSession()) {
-            return session.createQuery("FROM " + generic.getName(), generic).getResultList();
+            return session.createQuery("FROM " + type.getName(), type).getResultList();
         }
     }
 }

@@ -14,36 +14,39 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.config;
+package com.joedanpar.improbabot.components.common;
 
-import lombok.Data;
+import lombok.Getter;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import java.util.List;
 
-@Data
-@Entity
-@Table(name = "Config",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"ServerId", "Key"}))
-public class Config implements Serializable {
-    @Id
-    @GeneratedValue
-    @Column(name = "Id", nullable = false)
-    private int    id;
-    @Column(name = "ServerId", nullable = false)
-    private String serverId;
-    @Column(name = "Key", nullable = false)
-    private String key;
-    @Column(name = "Value")
-    private String value;
+public class GenericService<D extends GenericDao<T>, T> {
 
-    public Config() {
-        //no-op
+    @Getter
+    private D dao;
+
+    public GenericService(final D dao) {
+        this.dao = dao;
     }
 
-    Config(final String serverId, final String key, final String value) {
-        this.serverId = serverId;
-        this.key = key;
-        this.value = value;
+    @Transactional
+    public List<T> getAllObjectsByServerId(final String serverId) {
+        return dao.getAllObjectsByServerId(serverId);
+    }
+
+    @Transactional
+    public List<T> getAllObjects() {
+        return dao.getAllObjects();
+    }
+
+    @Transactional
+    public void saveObject(final T obj) {
+        dao.saveObject(obj);
+    }
+
+    @Transactional
+    public void removeObject(final T obj) {
+        dao.removeObject(obj);
     }
 }

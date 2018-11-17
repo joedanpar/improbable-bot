@@ -17,7 +17,7 @@
 package com.joedanpar.improbabot.components.admin;
 
 import com.joedanpar.improbabot.components.command.AbstractCommand;
-import com.joedanpar.improbabot.components.config.Config;
+import com.joedanpar.improbabot.components.config.ConfigBuilder;
 import com.joedanpar.improbabot.components.config.ConfigService;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
@@ -28,8 +28,8 @@ import org.springframework.stereotype.Component;
 
 import static com.joedanpar.improbabot.components.common.RolePermission.ADMIN;
 
-@Component
 @Log4j2
+@Component
 public class AdminCommand extends AbstractCommand {
 
     private ConfigService service;
@@ -74,19 +74,24 @@ public class AdminCommand extends AbstractCommand {
 
     private void addConfig(final MessageReceivedEvent event) {
         val message = event.getMessage().getContentStripped();
-        val config  = new Config(event.getGuild().getId(), message.split(" ")[3], message.split(" ")[4]);
-        messageHelper.reactAccordingly(event.getMessage(), service.addConfig(config));
+        messageHelper.reactAccordingly(event.getMessage(), service.createObject(
+                new ConfigBuilder().setServerId(event.getGuild().getId())
+                                   .setKey(message.split(" ")[3])
+                                   .setValue(message.split(" ")[4])
+                                   .build()));
     }
 
     private void removeConfig(final MessageReceivedEvent event) {
         val message = event.getMessage().getContentStripped();
-        val config  = new Config(event.getGuild().getId(), message.split(" ")[3], message.split(" ")[4]);
-        service.removeConfig(config);
+        service.removeObject(new ConfigBuilder().setServerId(event.getGuild().getId())
+                                                .setKey(message.split(" ")[3])
+                                                .setValue(message.split(" ")[4])
+                                                .build());
         messageHelper.reactSuccessfulResponse(event.getMessage());
     }
 
     private void listConfigs(final MessageReceivedEvent event) {
-        val configsByServerId = service.getConfigsByServerId(event.getGuild().getId());
+        val configsByServerId = service.getAllObjectsByServerId(event.getGuild().getId());
         val serverName        = event.getGuild().getName();
 
         if (configsByServerId.isEmpty()) {

@@ -28,16 +28,16 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.sqlite.SQLiteConfig;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
+
+import static org.sqlite.SQLiteConfig.Pragma.DATE_STRING_FORMAT;
 
 @Configuration
 @EnableTransactionManagement
@@ -69,7 +69,7 @@ public class DBBean {
         val properties = new Properties();
         properties.put("hibernate.dialect", hibernateDialect);
         properties.put("connection.driver_class", hibernateDriverClass);
-        properties.put(SQLiteConfig.Pragma.DATE_STRING_FORMAT.pragmaName, "yyyy-MM-dd'T'HH:mm:ssZ");
+        properties.put(DATE_STRING_FORMAT.pragmaName, "yyyy-MM-dd'T'HH:mm:ssZ");
 
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
         factoryBean.setJpaProperties(properties);
@@ -82,7 +82,8 @@ public class DBBean {
     }
 
     @Bean(name = "entityManagerFactory")
-    public EntityManagerFactory entityManagerFactory(final LocalEntityManagerFactoryBean entityManagerFactoryBean) {
+    public EntityManagerFactory entityManagerFactory(
+            final LocalContainerEntityManagerFactoryBean entityManagerFactoryBean) {
         return entityManagerFactoryBean.getObject();
     }
 

@@ -87,7 +87,7 @@ public class CommandParser {
     }
 
     private void reportError(final MessageReceivedEvent event, final Exception e) {
-        val config = configService.getConfigByName(event.getGuild().getId(), ERROR_ANNOUNCE_CHANNEL);
+        val config = configService.getConfig(event.getGuild().getId(), ERROR_ANNOUNCE_CHANNEL);
         if (config.size() > 0) {
             messageHelper.sendMessage(getChannel(event.getJDA(), event.getGuild().getId(), config.get(0).getValue()),
                                       e.toString() +
