@@ -16,12 +16,8 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.util;
 
-import com.jagrosh.jdautilities.menu.MenuBuilder;
-import com.jagrosh.jdautilities.menu.buttonmenu.ButtonMenuBuilder;
-import com.jagrosh.jdautilities.menu.orderedmenu.OrderedMenuBuilder;
-import com.jagrosh.jdautilities.menu.pagination.PaginatorBuilder;
-import com.jagrosh.jdautilities.menu.selectiondialog.SelectionDialogBuilder;
-import com.jagrosh.jdautilities.menu.slideshow.SlideshowBuilder;
+import com.jagrosh.jdautilities.menu.*;
+import com.jagrosh.jdautilities.menu.Menu.Builder;
 import com.joedanpar.improbabot.handlers.*;
 import lombok.experimental.UtilityClass;
 import lombok.extern.log4j.Log4j2;
@@ -37,8 +33,8 @@ public class DialogHelper {
         configureBuilder(menuType, getMenuBuilder(menuType), parameters).build().display(channel);
     }
 
-    private static MenuBuilder configureBuilder(final MenuType menuType, final MenuBuilder builder,
-                                                final Map<String, Object> parameters) {
+    private static Builder configureBuilder(final MenuType menuType, final Builder builder,
+                                            final Map<String, Object> parameters) {
         if (builder != null) {
             switch (menuType) {
                 case BUTTON:
@@ -59,18 +55,18 @@ public class DialogHelper {
         return null;
     }
 
-    private static MenuBuilder getMenuBuilder(final MenuType menuType) {
+    private static Builder getMenuBuilder(final MenuType menuType) {
         switch (menuType) {
             case BUTTON:
-                return new ButtonMenuBuilder();
+                return new ButtonMenu.Builder();
             case ORDERED:
-                return new OrderedMenuBuilder();
+                return new OrderedMenu.Builder();
             case PAGINATED:
-                return new PaginatorBuilder();
+                return new Paginator.Builder();
             case DIALOG:
-                return new SelectionDialogBuilder();
+                return new SelectionDialog.Builder();
             case SLIDESHOW:
-                return new SlideshowBuilder();
+                return new Slideshow.Builder();
             default:
                 log.error("Unknown Menu Type: {}", menuType);
                 return null;

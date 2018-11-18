@@ -21,5 +21,5 @@ public enum MenuType {
     ORDERED,
     PAGINATED,
     DIALOG,
-    SLIDESHOW;
+    SLIDESHOW
 }

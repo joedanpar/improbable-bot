@@ -16,14 +16,14 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.handlers;
 
-import com.jagrosh.jdautilities.menu.MenuBuilder;
-import com.jagrosh.jdautilities.menu.orderedmenu.OrderedMenuBuilder;
+import com.jagrosh.jdautilities.menu.Menu;
+import com.jagrosh.jdautilities.menu.OrderedMenu.Builder;
 
 import java.util.Map;
 
-public class OrderedMenuHandler extends AbstractMenuHandler<OrderedMenuBuilder> {
+public class OrderedMenuHandler extends AbstractMenuHandler<Builder> {
     @Override
-    public OrderedMenuBuilder configureBuilder(final MenuBuilder builder, final Map<String, Object> parameters) {
+    public Builder configureBuilder(final Menu.Builder builder, final Map<String, Object> parameters) {
         return super.configureBuilder(builder, parameters);
     }
 }

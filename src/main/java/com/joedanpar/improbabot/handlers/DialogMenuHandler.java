@@ -16,16 +16,16 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.handlers;
 
-import com.jagrosh.jdautilities.menu.MenuBuilder;
-import com.jagrosh.jdautilities.menu.selectiondialog.SelectionDialogBuilder;
+import com.jagrosh.jdautilities.menu.Menu;
+import com.jagrosh.jdautilities.menu.SelectionDialog.Builder;
 import lombok.val;
 
 import java.util.Map;
 
-public class DialogMenuHandler extends AbstractMenuHandler<SelectionDialogBuilder> {
+public class DialogMenuHandler extends AbstractMenuHandler<Builder> {
     @Override
-    public SelectionDialogBuilder configureBuilder(final MenuBuilder builder,
-                                                   final Map<String, Object> parameters) {
+    public Builder configureBuilder(final Menu.Builder builder,
+                                    final Map<String, Object> parameters) {
         val _builder = super.configureBuilder(builder, parameters);
 
         return _builder;

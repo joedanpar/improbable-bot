@@ -16,15 +16,15 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.handlers;
 
-import com.jagrosh.jdautilities.menu.MenuBuilder;
-import com.jagrosh.jdautilities.menu.slideshow.SlideshowBuilder;
+import com.jagrosh.jdautilities.menu.Menu;
+import com.jagrosh.jdautilities.menu.Slideshow.Builder;
 import lombok.val;
 
 import java.util.Map;
 
-public class SlideshowMenuHandler extends AbstractMenuHandler<SlideshowBuilder> {
+public class SlideshowMenuHandler extends AbstractMenuHandler<Builder> {
     @Override
-    public SlideshowBuilder configureBuilder(final MenuBuilder builder, final Map<String, Object> parameters) {
+    public Builder configureBuilder(final Menu.Builder builder, final Map<String, Object> parameters) {
         val _builder = super.configureBuilder(builder, parameters);
 
         return _builder;

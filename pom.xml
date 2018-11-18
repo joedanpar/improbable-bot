@@ -2,18 +2,18 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ~ This file is part of Improbable Bot.
   ~
-  ~    Improbable Bot is free software: you can redistribute it and/or modify
-  ~    it under the terms of the GNU General Public License as published by
-  ~    the Free Software Foundation, either version 3 of the License, or
-  ~    (at your option) any later version.
+  ~     Improbable Bot is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
   ~
-  ~    Improbable Bot is distributed in the hope that it will be useful,
-  ~    but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~    GNU General Public License for more details.
+  ~     Improbable Bot is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
   ~
-  ~    You should have received a copy of the GNU General Public License
-  ~    along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -54,7 +54,7 @@
         <httpclient.version>4.5.6</httpclient.version>
         <jackson-databind.version>2.9.7</jackson-databind.version>
         <jda.version>3.8.1_437</jda.version>
-        <jda-utilities.version>1.7</jda-utilities.version>
+        <jda-utilities.version>2.1.4</jda-utilities.version>
         <log4j.version>2.8.2</log4j.version>
         <lombok.version>1.16.20</lombok.version>
         <recastai-java-api.version>0.0.1</recastai-java-api.version>
@@ -70,7 +70,18 @@
         </dependency>
         <dependency>
             <groupId>com.jagrosh</groupId>
-            <artifactId>JDA-Utilities</artifactId>
+            <artifactId>jda-utilities</artifactId>
+            <version>${jda-utilities.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>com.jagrosh</groupId>
+            <artifactId>jda-utilities-command</artifactId>
+            <version>${jda-utilities.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jagrosh</groupId>
+            <artifactId>jda-utilities-menu</artifactId>
             <version>${jda-utilities.version}</version>
         </dependency>
         <dependency>
@@ -171,6 +182,14 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-jagrosh-maven</id>
+            <name>bintray</name>
+            <url>https://dl.bintray.com/jagrosh/maven</url>
         </repository>
         <repository>
             <snapshots>

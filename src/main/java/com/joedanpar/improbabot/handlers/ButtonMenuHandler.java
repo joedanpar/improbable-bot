@@ -16,8 +16,8 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.handlers;
 
-import com.jagrosh.jdautilities.menu.MenuBuilder;
-import com.jagrosh.jdautilities.menu.buttonmenu.ButtonMenuBuilder;
+import com.jagrosh.jdautilities.menu.ButtonMenu.Builder;
+import com.jagrosh.jdautilities.menu.Menu;
 import lombok.val;
 import net.dv8tion.jda.core.entities.MessageReaction.ReactionEmote;
 
@@ -28,47 +28,47 @@ import java.util.function.Consumer;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-public class ButtonMenuHandler extends AbstractMenuHandler<ButtonMenuBuilder> {
+public class ButtonMenuHandler extends AbstractMenuHandler<Builder> {
     @Override
-    public ButtonMenuBuilder configureBuilder(final MenuBuilder builder, final Map<String, Object> parameters) {
+    public Builder configureBuilder(final Menu.Builder builder, final Map<String, Object> parameters) {
         val _builder = super.configureBuilder(builder, parameters);
 
         configureText(_builder, (String) parameters.get("text"));
         configureDescription(_builder, (String) parameters.get("description"));
         configureChoices(_builder, (List<String>) parameters.get("choices"));
         configureAction(_builder, (Consumer<ReactionEmote>) parameters.get("action"));
-        configureCancel(_builder, (Runnable) parameters.get("cancel"));
+//        configureCancel(_builder, (Runnable) parameters.get("cancel"));
 
         return _builder;
     }
 
-    private void configureText(final ButtonMenuBuilder builder, final String text) {
+    private void configureText(final Builder builder, final String text) {
         if (isNotBlank(text)) {
             builder.setText(text);
         }
     }
 
-    private void configureDescription(final ButtonMenuBuilder builder, final String description) {
+    private void configureDescription(final Builder builder, final String description) {
         if (isNotBlank(description)) {
             builder.setDescription(description);
         }
     }
 
-    private void configureChoices(final ButtonMenuBuilder builder, final List<String> choices) {
+    private void configureChoices(final Builder builder, final List<String> choices) {
         if (isNotEmpty(choices)) {
             builder.setChoices(choices.toArray(new String[0]));
         }
     }
 
-    private void configureAction(final ButtonMenuBuilder builder, final Consumer<ReactionEmote> action) {
+    private void configureAction(final Builder builder, final Consumer<ReactionEmote> action) {
         if (action != null) {
             builder.setAction(action);
         }
     }
 
-    private void configureCancel(final ButtonMenuBuilder builder, final Runnable cancel) {
+    /*private void configureCancel(final Builder builder, final Runnable cancel) {
         if (cancel != null) {
             builder.setCancel(cancel);
         }
-    }
+    }*/
 }

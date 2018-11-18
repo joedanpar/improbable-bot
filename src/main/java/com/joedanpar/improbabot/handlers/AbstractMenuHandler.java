@@ -16,12 +16,11 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.handlers;
 
-import com.jagrosh.jdautilities.menu.MenuBuilder;
-import com.jagrosh.jdautilities.waiter.EventWaiter;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import com.jagrosh.jdautilities.menu.Menu.Builder;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 
-import java.awt.*;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -29,9 +28,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
-public abstract class AbstractMenuHandler<B extends MenuBuilder> {
-    B configureBuilder(final MenuBuilder builder, final Map<String, Object> parameters) {
-        configureColor(builder, (Color) parameters.get("color"));
+public abstract class AbstractMenuHandler<B extends Builder> {
+    B configureBuilder(final Builder builder, final Map<String, Object> parameters) {
+//        configureColor(builder, (Color) parameters.get("color"));
         configureWaiter(builder, (EventWaiter) parameters.get("waiter"));
         configureUsers(builder, (Set<User>) parameters.get("users"));
         configureRoles(builder, (Set<Role>) parameters.get("roles"));
@@ -40,31 +39,31 @@ public abstract class AbstractMenuHandler<B extends MenuBuilder> {
         return (B) builder;
     }
 
-    private void configureColor(final MenuBuilder builder, final Color color) {
+    /*private void configureColor(final Builder builder, final Color color) {
         if (color != null) {
             builder.setColor(color);
         }
-    }
+    }*/
 
-    private void configureWaiter(final MenuBuilder builder, final EventWaiter waiter) {
+    private void configureWaiter(final Builder builder, final EventWaiter waiter) {
         if (waiter != null) {
             builder.setEventWaiter(waiter);
         }
     }
 
-    private void configureUsers(final MenuBuilder builder, final Collection<User> users) {
+    private void configureUsers(final Builder builder, final Collection<User> users) {
         if (isNotEmpty(users)) {
             builder.setUsers(users.toArray(new User[0]));
         }
     }
 
-    private void configureRoles(final MenuBuilder builder, final Collection<Role> roles) {
+    private void configureRoles(final Builder builder, final Collection<Role> roles) {
         if (isNotEmpty(roles)) {
             builder.setRoles(roles.toArray(new Role[0]));
         }
     }
 
-    private void configureTimeout(final MenuBuilder builder, final Long timeout, final TimeUnit unit) {
+    private void configureTimeout(final Builder builder, final Long timeout, final TimeUnit unit) {
         if (timeout != null && unit != null) {
             builder.setTimeout(timeout, unit);
         }
