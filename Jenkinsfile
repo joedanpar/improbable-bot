@@ -1,3 +1,4 @@
+#!groovy
 /*******************************************************************************
  * This file is part of Improbable Bot.
  *
@@ -15,7 +16,6 @@
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-#!groovy
 pipeline {
     agent any
     stages {
