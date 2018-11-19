@@ -77,7 +77,7 @@ public class PlayerCommands {
     private Command listPlayersCommand() {
         return new CommandBuilder()
                 .setCategory(category)
-                .setName("create")
+                .setName("list")
                 .build((command, event) -> listPlayers(event));
     }
 
