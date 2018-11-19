@@ -23,4 +23,8 @@ import static java.time.OffsetDateTime.now;
 public class Constants {
     public static final OffsetDateTime STARTUP = now();
     public static final String         PREFIX  = "!";
+    
+    private Constants() {
+        // no-op
+    }
 }
