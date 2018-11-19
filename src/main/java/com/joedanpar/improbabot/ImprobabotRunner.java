@@ -16,12 +16,13 @@
  ******************************************************************************/
 package com.joedanpar.improbabot;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import static org.springframework.boot.SpringApplication.run;
 
 @SpringBootApplication
 public class ImprobabotRunner {
     public static void main(final String[] args) {
-        SpringApplication.run(Improbabot.class, args);
+        run(Improbabot.class, args);
     }
 }

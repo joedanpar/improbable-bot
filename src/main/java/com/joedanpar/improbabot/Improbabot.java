@@ -26,8 +26,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import static net.dv8tion.jda.core.entities.Game.playing;
-
 @Log4j2
 @ComponentScan({"com.joedanpar.improbabot"})
 public class Improbabot {
@@ -42,6 +40,6 @@ public class Improbabot {
 
     @Bean
     public CommandLineRunner commandLineRunner(final ApplicationContext context) {
-        return args -> jda.getPresence().setGame(playing("In Development"));
+        return args -> {};
     }
 }

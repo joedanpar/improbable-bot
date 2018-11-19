@@ -16,8 +16,12 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.common;
 
-class Emojis {
-    static final String CHECK_MARK    = "✅";
-    static final String QUESTION_MARK = "❔";
-    static final String CROSS_X       = "❌";
+public class Emojis {
+    public static final String BUTTON = "🔳";
+
+    public static final String CHECK_MARK    = "✅";
+    public static final String QUESTION_MARK = "❔";
+    public static final String CROSS_X       = "❌";
+
+    public static final String CMD = "📜";
 }

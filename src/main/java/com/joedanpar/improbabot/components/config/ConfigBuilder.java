@@ -16,7 +16,7 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.config;
 
-import static org.springframework.util.StringUtils.isEmpty;
+import static net.dv8tion.jda.core.utils.Checks.notEmpty;
 
 public class ConfigBuilder {
 
@@ -25,9 +25,9 @@ public class ConfigBuilder {
     private String value;
 
     public Config build() {
-        if (isEmpty(serverId)) throw new IllegalArgumentException("A serverId is required.");
-        if (isEmpty(key)) throw new IllegalArgumentException("A key is required.");
-        if (isEmpty(value)) throw new IllegalArgumentException("A value is required.");
+        notEmpty(serverId, "A serverId is required.");
+        notEmpty(key, "A key is required.");
+        notEmpty(value, "A value is required.");
         return new Config(serverId, key, value);
     }
 

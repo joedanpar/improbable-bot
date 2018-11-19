@@ -14,19 +14,8 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.handlers;
+package com.joedanpar.improbabot.components.game.player;
 
-import com.jagrosh.jdautilities.menu.Menu;
-import com.jagrosh.jdautilities.menu.Paginator.Builder;
-import lombok.val;
-
-import java.util.Map;
-
-public class PaginatedMenuHandler extends AbstractMenuHandler<Builder> {
-    @Override
-    public Builder configureBuilder(final Menu.Builder builder, final Map<String, Object> parameters) {
-        val _builder = super.configureBuilder(builder, parameters);
-
-        return _builder;
-    }
+public enum Gender {
+    MALE, FEMALE
 }

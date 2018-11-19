@@ -35,14 +35,17 @@ public class Player implements Serializable {
     private String serverId;
     @Column(name = "Name", nullable = false)
     private String name;
+    @Column(name = "Gender", nullable = false)
+    private Gender gender;
 
     public Player() {
         //no-op
     }
 
-    Player(final String serverId, final String name) {
+    Player(final String serverId, final String name, final Gender gender) {
         this.serverId = serverId;
         this.name = name;
+        this.gender = gender;
     }
 
 }

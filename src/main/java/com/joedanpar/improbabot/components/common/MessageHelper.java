@@ -27,7 +27,7 @@ import java.util.Collection;
 import static com.joedanpar.improbabot.components.common.Emojis.*;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+import static org.springframework.util.StringUtils.isEmpty;
 
 @Component
 public class MessageHelper {

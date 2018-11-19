@@ -16,18 +16,20 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.game.player;
 
-import static java.util.Objects.isNull;
-import static org.springframework.util.StringUtils.isEmpty;
+import static net.dv8tion.jda.core.utils.Checks.notEmpty;
+import static net.dv8tion.jda.core.utils.Checks.notNull;
 
 public class PlayerBuilder {
 
     private String serverId;
     private String name;
+    private Gender gender;
 
     public Player build() {
-        if (isEmpty(name)) throw new IllegalArgumentException("A name is required.");
-        if (isNull(serverId)) throw new IllegalArgumentException("A serverId is required.");
-        return new Player(serverId, name);
+        notEmpty(name, "A name is required.");
+        notNull(serverId, "A serverId is required.");
+        notNull(gender, "A gender is required.");
+        return new Player(serverId, name, gender);
     }
 
     public PlayerBuilder setServerId(final String serverId) {
@@ -37,6 +39,11 @@ public class PlayerBuilder {
 
     public PlayerBuilder setName(final String name) {
         this.name = name;
+        return this;
+    }
+
+    public PlayerBuilder setGender(final Gender gender) {
+        this.gender = gender;
         return this;
     }
 }

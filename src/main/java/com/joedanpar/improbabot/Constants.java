@@ -14,19 +14,13 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.handlers;
+package com.joedanpar.improbabot;
 
-import com.jagrosh.jdautilities.menu.Menu;
-import com.jagrosh.jdautilities.menu.Slideshow.Builder;
-import lombok.val;
+import java.time.OffsetDateTime;
 
-import java.util.Map;
+import static java.time.OffsetDateTime.now;
 
-public class SlideshowMenuHandler extends AbstractMenuHandler<Builder> {
-    @Override
-    public Builder configureBuilder(final Menu.Builder builder, final Map<String, Object> parameters) {
-        val _builder = super.configureBuilder(builder, parameters);
-
-        return _builder;
-    }
+public class Constants {
+    public static final OffsetDateTime STARTUP = now();
+    public static final String         PREFIX  = "!";
 }
