@@ -14,35 +14,22 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.config;
+package com.joedanpar.improbabot.components.common
 
-import static net.dv8tion.jda.core.utils.Checks.notEmpty;
+object Emojis {
 
-public class ConfigBuilder {
+    @JvmField
+    val BUTTON = "🔳"
 
-    private String serverId;
-    private String name;
-    private String value;
+    @JvmField
+    val CHECK_MARK = "✅"
 
-    public Config build() {
-        notEmpty(serverId, "A serverId is required.");
-        notEmpty(name, "A name is required.");
-        notEmpty(value, "A value is required.");
-        return new Config(serverId, name, value);
-    }
+    @JvmField
+    val QUESTION_MARK = "❔"
 
-    public ConfigBuilder setServerId(final String serverId) {
-        this.serverId = serverId;
-        return this;
-    }
+    @JvmField
+    val CROSS_X = "❌"
 
-    public ConfigBuilder setName(final String name) {
-        this.name = name;
-        return this;
-    }
-
-    public ConfigBuilder setValue(final String value) {
-        this.value = value;
-        return this;
-    }
+    @JvmField
+    val CMD = "📜"
 }

@@ -14,34 +14,11 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.common;
+package com.joedanpar.improbabot.components.common
 
-import lombok.Getter;
-
-import java.util.List;
-
-public class GenericService<D extends GenericDao<T>, T> {
-
-    @Getter
-    private D dao;
-
-    public GenericService(final D dao) {
-        this.dao = dao;
-    }
-
-    public List<T> getAllObjectsByServerId(final String serverId) {
-        return dao.getAllObjectsByServerId(serverId);
-    }
-
-    public List<T> getAllObjects() {
-        return dao.getAllObjects();
-    }
-
-    public void saveObject(final T obj) {
-        dao.saveObject(obj);
-    }
-
-    public void removeObject(final T obj) {
-        dao.removeObject(obj);
-    }
+enum class RolePermission(roleLevel: Int, roleName: String) {
+    OWNER(3, "\${ownerId}"),
+    ADMIN(2, "admin"),
+    GAME_MASTER(1, "game master"),
+    EVERYONE(0, "@everyone");
 }

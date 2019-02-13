@@ -14,15 +14,13 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot;
+package com.joedanpar.improbabot.components.config
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+object ConfigConstants {
 
-import static org.springframework.boot.SpringApplication.run;
+    @JvmField
+    val ERROR_ANNOUNCE_CHANNEL = "errorAnnounceChannel"
 
-@SpringBootApplication
-public class ImprobabotRunner {
-    public static void main(final String[] args) {
-        run(Improbabot.class, args);
-    }
+    @JvmField
+    val CONVERSATION_CHANNELS = "conversationChannels"
 }

@@ -14,18 +14,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.common;
 
-public class Emojis {
-    public static final String BUTTON = "🔳";
+package com.joedanpar.improbabot.components.common
 
-    public static final String CHECK_MARK    = "✅";
-    public static final String QUESTION_MARK = "❔";
-    public static final String CROSS_X       = "❌";
+open class GenericService<D : GenericDao<T>, T>(val dao: D) {
 
-    public static final String CMD = "📜";
+    val allObjects: List<T>
+        get() = dao.allObjects
 
-    private Emojis() {
-        // no-op
+    fun getAllObjectsByServerId(serverId: String): List<T> {
+        return dao.getAllObjectsByServerId(serverId)
+    }
+
+    fun saveObject(obj: T) {
+        dao.saveObject(obj)
+    }
+
+    fun removeObject(obj: T) {
+        dao.removeObject(obj)
     }
 }

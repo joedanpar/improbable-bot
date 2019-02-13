@@ -14,12 +14,29 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.config;
+package com.joedanpar.improbabot.components.config
 
-import lombok.experimental.UtilityClass;
+import java.io.Serializable
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType.IDENTITY
+import javax.persistence.Id
 
-@UtilityClass
-public class ConfigConstants {
-    public static final String ERROR_ANNOUNCE_CHANNEL = "errorAnnounceChannel";
-    public static final String CONVERSATION_CHANNELS  = "conversationChannels";
+@Entity
+class Config(
+
+        @Id
+        @GeneratedValue(strategy = IDENTITY)
+        val id: Int?,
+
+        @Column(nullable = false)
+        val serverId: String,
+
+        @Column(nullable = false)
+        val name: String,
+
+        val value: String) : Serializable {
+
+    constructor(serverId: String, name: String, value: String) : this(null, serverId, name, value)
 }

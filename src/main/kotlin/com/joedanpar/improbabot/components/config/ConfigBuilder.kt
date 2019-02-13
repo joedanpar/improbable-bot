@@ -14,17 +14,35 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot;
+package com.joedanpar.improbabot.components.config
 
-import java.time.OffsetDateTime;
+import net.dv8tion.jda.core.utils.Checks.notEmpty
 
-import static java.time.OffsetDateTime.now;
+class ConfigBuilder {
 
-public class Constants {
-    public static final OffsetDateTime STARTUP = now();
-    public static final String         PREFIX  = "!";
+    private var serverId: String? = null
+    private var name: String? = null
+    private var value: String? = null
 
-    private Constants() {
-        // no-op
+    fun build(): Config {
+        notEmpty(serverId!!, "A serverId is required.")
+        notEmpty(name!!, "A name is required.")
+        notEmpty(value!!, "A value is required.")
+        return Config(serverId!!, name!!, value!!)
+    }
+
+    fun setServerId(serverId: String): ConfigBuilder {
+        this.serverId = serverId
+        return this
+    }
+
+    fun setName(name: String): ConfigBuilder {
+        this.name = name
+        return this
+    }
+
+    fun setValue(value: String): ConfigBuilder {
+        this.value = value
+        return this
     }
 }

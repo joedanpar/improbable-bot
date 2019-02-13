@@ -14,20 +14,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot;
+package com.joedanpar.improbabot.components.game
 
-import lombok.extern.log4j.Log4j2;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType.IDENTITY
+import javax.persistence.Id
 
-@Log4j2
-@ComponentScan({"com.joedanpar.improbabot"})
-public class Improbabot {
+@Entity
+class Game(
 
-    @Bean
-    public CommandLineRunner commandLineRunner(final ApplicationContext context) {
-        return args -> {};
-    }
-}
+        @Id
+        @GeneratedValue(strategy = IDENTITY)
+        val id: Int?,
+
+        @Column(nullable = false)
+        val serverId: String?)

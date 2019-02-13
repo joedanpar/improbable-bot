@@ -14,21 +14,15 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.common;
+package com.joedanpar.improbabot
 
-import lombok.Getter;
+import java.time.OffsetDateTime.now
 
-public enum RolePermission {
-    OWNER(3, "${ownerId}"), ADMIN(2, "admin"), GAME_MASTER(1, "game master"), EVERYONE(0, "@everyone");
+object Constants {
 
-    @Getter
-    int roleLevel;
+    @JvmField
+    val STARTUP = now()
 
-    @Getter
-    String roleName;
-
-    RolePermission(final int roleLevel, final String roleName) {
-        this.roleLevel = roleLevel;
-        this.roleName = roleName;
-    }
+    @JvmField
+    val PREFIX = "!"
 }
