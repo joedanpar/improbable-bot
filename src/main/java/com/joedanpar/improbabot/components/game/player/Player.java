@@ -17,35 +17,51 @@
 package com.joedanpar.improbabot.components.game.player;
 
 import lombok.Data;
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Data
 @Entity
-@Table(name = "Player",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"ServerId", "Name"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"serverId", "userId"}))
 public class Player implements Serializable {
 
     @Id
-    @GeneratedValue
-    @Column(name = "Id", nullable = false)
-    private int    id;
-    @Column(name = "ServerId", nullable = false)
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(nullable = false)
+    private int id;
+    @Column(nullable = false)
     private String serverId;
-    @Column(name = "Name", nullable = false)
+    @Column(nullable = false)
+    private String userId;
+    @Column(nullable = false)
     private String name;
-    @Column(name = "Gender", nullable = false)
-    private Gender gender;
+    @Column(nullable = false)
+    private String gender;
+    @Column(nullable = false)
+    private String race;
 
     public Player() {
         //no-op
     }
 
-    Player(final String serverId, final String name, final Gender gender) {
+    Player(final String serverId, final String userId, final String name, final String gender, final String race) {
         this.serverId = serverId;
+        this.userId = userId;
         this.name = name;
         this.gender = gender;
+        this.race = race;
+    }
+
+    private MessageEmbed toEmbed() {
+        return new EmbedBuilder().setTitle(getName())
+                                 .addField("Gender", getGender(), true)
+                                 .addField("Race", getRace(), true)
+                                 .build();
     }
 
 }

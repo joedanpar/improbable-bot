@@ -24,7 +24,7 @@ public class Emojis {
     public static final String CROSS_X       = "❌";
 
     public static final String CMD = "📜";
-    
+
     private Emojis() {
         // no-op
     }

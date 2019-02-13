@@ -31,6 +31,8 @@
     <artifactId>improbable-bot</artifactId>
     <version>0.0.1</version>
     <name>Improbable Bot</name>
+    <description>Discord bot that plays text-based RPGs, inspired by Improbable Island</description>
+    <url>https://github.com/joedanpar/improbable-bot</url>
 
     <scm>
         <connection>scm:git:https://github.com/joedanpar/Improbabot.git</connection>
@@ -105,11 +107,6 @@
             <version>${commons-lang.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>${sqlite-jdbc.version}</version>
-        </dependency>
-        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
@@ -147,9 +144,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.gwenn</groupId>
-            <artifactId>sqlite-dialect</artifactId>
-            <version>${sqlite-dialect.version}</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

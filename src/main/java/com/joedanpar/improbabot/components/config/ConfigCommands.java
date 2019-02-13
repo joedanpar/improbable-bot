@@ -26,8 +26,13 @@ import lombok.val;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+import static net.dv8tion.jda.core.utils.Checks.check;
 
 @Log4j2
 @Component
@@ -45,24 +50,57 @@ public class ConfigCommands {
     }
 
     @Bean
-    public Command configCommand() {
+    @Qualifier("rootCommand")
+    public Command configCommand(@Qualifier("configCommand") List<Command> commands) {
         return new CommandBuilder()
                 .setCategory(category)
                 .setName("config")
                 .setRequiredRole("admin")
-                .setChildren(addConfigCommand(), removeConfigCommand(), listConfigsCommand())
+                .setArguments("{add|remove|list}")
+                .setHelp("Used in the configuration of Improbabot on a given server.")
+                .setChildren(commands)
+                .setHelpBiConsumer(((event, command) -> {
+                    val sb = new StringBuilder("Help for **").append(command.getName()).append("**:\n");
+
+                    for (val child : command.getChildren()) {
+                        sb.append("`")
+                          .append(event.getClient().getPrefix())
+                          .append(child.getName())
+                          .append(" ")
+                          .append(child.getArguments())
+                          .append("` - ")
+                          .append(child.getHelp())
+                          .append("\n");
+                    }
+
+                    event.replyInDm(sb.toString());
+                    event.reactSuccess();
+                }))
                 .build((command, event) -> {});
     }
 
+    @Bean
+    @Qualifier("configCommand")
     private Command addConfigCommand() {
         return new CommandBuilder()
                 .setCategory(category)
                 .setName("add")
                 .setRequiredRole("admin")
-                .setArguments("[configKey] [configValue]")
+                .setArguments("configKey configValue")
                 .build((command, event) -> addConfig(event));
     }
 
+    private void addConfig(final CommandEvent event) {
+        val args = event.getArgs().split("\\s+");
+        check(args.length == 2, "Incorrect amount of arguments! Expected 2, Gave %d", args.length);
+        new ConfigBuilder().setServerId(event.getGuild().getId())
+                           .setName(args[0])
+                           .setValue(args[1])
+                           .build();
+    }
+
+    @Bean
+    @Qualifier("configCommand")
     private Command removeConfigCommand() {
         return new CommandBuilder()
                 .setCategory(category)
@@ -71,29 +109,23 @@ public class ConfigCommands {
                 .build((command, event) -> removeConfig(event));
     }
 
+    private void removeConfig(final CommandEvent event) {
+        val args = event.getArgs().split("\\s+");
+        check(args.length == 2, "Incorrect amount of arguments! Expected 2, Gave %d", args.length);
+        service.removeObject(new ConfigBuilder().setServerId(event.getGuild().getId())
+                                                .setName(args[0])
+                                                .setValue(args[1])
+                                                .build());
+    }
+
+    @Bean
+    @Qualifier("configCommand")
     private Command listConfigsCommand() {
         return new CommandBuilder()
                 .setCategory(category)
                 .setName("list")
                 .setRequiredRole("admin")
                 .build((command, event) -> listConfigs(event));
-    }
-
-    private void addConfig(final CommandEvent event) {
-        val args = event.getArgs().split("\\s+");
-        new ConfigBuilder().setServerId(event.getGuild().getId())
-                           .setKey(args[3])
-                           .setValue(args[4])
-                           .build();
-    }
-
-    private void removeConfig(final CommandEvent event) {
-        val args = event.getArgs().split("\\s+");
-        service.removeObject(new ConfigBuilder().setServerId(event.getGuild().getId())
-                                                .setKey(args[3])
-                                                .setValue(args[4])
-                                                .build());
-//        messageHelper.reactSuccessfulResponse(event.getMessage());
     }
 
     private void listConfigs(final CommandEvent event) {
@@ -110,7 +142,7 @@ public class ConfigCommands {
         embedBuilder.setTitle("Configs for " + serverName);
 
         for (val config : configsByServerId) {
-            embedBuilder.addField(config.getKey(), config.getValue(), false);
+            embedBuilder.addField(config.getName(), config.getValue(), false);
         }
 
         msgBuilder.setEmbed(embedBuilder.build());

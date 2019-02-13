@@ -18,32 +18,36 @@ package com.joedanpar.improbabot.components.config;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @Entity
-@Table(name = "Config",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"ServerId", "Key"}))
 public class Config implements Serializable {
+
     @Id
-    @GeneratedValue
-    @Column(name = "Id", nullable = false)
-    private int    id;
-    @Column(name = "ServerId", nullable = false)
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(nullable = false)
+    private int id;
+    @Column(nullable = false)
     private String serverId;
-    @Column(name = "Key", nullable = false)
-    private String key;
-    @Column(name = "Value")
+    @Column(nullable = false)
+    private String name;
+
     private String value;
 
     public Config() {
         //no-op
     }
 
-    Config(final String serverId, final String key, final String value) {
+    Config(final String serverId, final String name, final String value) {
         this.serverId = serverId;
-        this.key = key;
+        this.name = name;
         this.value = value;
     }
 }

@@ -20,10 +20,10 @@ import com.joedanpar.improbabot.components.common.GenericService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.TransactionRequiredException;
+import java.util.List;
 
 @Log4j2
 @Service
@@ -34,25 +34,30 @@ public class PlayerService extends GenericService<PlayerDao, Player> {
         super(dao);
     }
 
-    @Transactional
-    public Player getObject(final String serverId, final String name) {
-        return getDao().getPlayerByName(serverId, name);
+    public Player getObjectByUser(final String serverId, final String userId) {
+        return getDao().getPlayerByUser(serverId, userId);
     }
 
-    @Transactional
-    public void removeObject(final String serverId, final String name) {
-        getDao().removeObjectByName(serverId, name);
+    public List<Player> getObjectsByUser(final String userId) {
+        return getDao().getPlayersByUser(userId);
     }
 
-    @Transactional
-    public boolean createObject(final String serverId, final String name) {
+    public void removeObject(final String serverId, final String userId) {
+        getDao().removePlayerByUser(serverId, userId);
+    }
+
+    public boolean createObject(final String serverId, final String userId, final String name, final String gender) {
         return createObject(new PlayerBuilder()
                                     .setServerId(serverId)
+                                    .setUserId(userId)
                                     .setName(name)
-                                    .build());
+                                    .setGender(gender));
     }
 
-    @Transactional
+    boolean createObject(final PlayerBuilder builder) {
+        return createObject(builder.build());
+    }
+
     boolean createObject(final Player player) {
         try {
             saveObject(player);

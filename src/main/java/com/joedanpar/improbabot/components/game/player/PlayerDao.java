@@ -19,10 +19,12 @@ package com.joedanpar.improbabot.components.game.player;
 import com.joedanpar.improbabot.components.common.GenericDao;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.util.List;
 
 @Log4j2
 @Repository
@@ -30,22 +32,27 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlayerDao extends GenericDao<Player> {
 
     @Autowired
-    public PlayerDao(final SessionFactory sessionFactory) {
-        super(sessionFactory);
+    public PlayerDao(final EntityManager entityManager) {
+        super(entityManager);
     }
 
-    void removeObjectByName(final String serverId, final String playerName) {
-        log.debug("Removing player \"{}\" for {}", playerName, serverId);
-        removeObject(getPlayerByName(serverId, playerName));
+    void removePlayerByUser(final String serverId, final String userId) {
+        log.debug("Removing player for {} {}", serverId, userId);
+        removeObject(getPlayerByUser(serverId, userId));
     }
 
-    Player getPlayerByName(final String serverId, final String playerName) {
-        log.debug("Getting player \"{}\" for {} {}", playerName, serverId);
-        try (val session = sessionFactory.openSession()) {
-            val query = session.createQuery("FROM Config where serverId = :serverId and name = :playerName", getType());
-            query.setParameter("serverId", serverId);
-            query.setParameter("playerName", playerName);
-            return query.getSingleResult();
-        }
+    Player getPlayerByUser(final String serverId, final String userId) {
+        log.debug("Getting player for {} {}", serverId, userId);
+        val query = entityManager.createQuery("FROM Player where serverId = :serverId and userId = :userId", getType());
+        query.setParameter("serverId", serverId);
+        query.setParameter("userId", userId);
+        return query.getSingleResult();
+    }
+
+    List<Player> getPlayersByUser(final String userId) {
+        log.debug("Getting players for {}", userId);
+        val query = entityManager.createQuery("FROM Player where userId = :userId", getType());
+        query.setParameter("userId", userId);
+        return query.getResultList();
     }
 }

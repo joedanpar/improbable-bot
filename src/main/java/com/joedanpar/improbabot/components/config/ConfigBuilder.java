@@ -21,14 +21,14 @@ import static net.dv8tion.jda.core.utils.Checks.notEmpty;
 public class ConfigBuilder {
 
     private String serverId;
-    private String key;
+    private String name;
     private String value;
 
     public Config build() {
         notEmpty(serverId, "A serverId is required.");
-        notEmpty(key, "A key is required.");
+        notEmpty(name, "A name is required.");
         notEmpty(value, "A value is required.");
-        return new Config(serverId, key, value);
+        return new Config(serverId, name, value);
     }
 
     public ConfigBuilder setServerId(final String serverId) {
@@ -36,8 +36,8 @@ public class ConfigBuilder {
         return this;
     }
 
-    public ConfigBuilder setKey(final String key) {
-        this.key = key;
+    public ConfigBuilder setName(final String name) {
+        this.name = name;
         return this;
     }
 

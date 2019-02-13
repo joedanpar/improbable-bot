@@ -17,7 +17,6 @@
 package com.joedanpar.improbabot.components.common;
 
 import lombok.Getter;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,22 +29,18 @@ public class GenericService<D extends GenericDao<T>, T> {
         this.dao = dao;
     }
 
-    @Transactional
     public List<T> getAllObjectsByServerId(final String serverId) {
         return dao.getAllObjectsByServerId(serverId);
     }
 
-    @Transactional
     public List<T> getAllObjects() {
         return dao.getAllObjects();
     }
 
-    @Transactional
     public void saveObject(final T obj) {
         dao.saveObject(obj);
     }
 
-    @Transactional
     public void removeObject(final T obj) {
         dao.removeObject(obj);
     }

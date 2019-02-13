@@ -22,18 +22,27 @@ import static net.dv8tion.jda.core.utils.Checks.notNull;
 public class PlayerBuilder {
 
     private String serverId;
+    private String userId;
     private String name;
-    private Gender gender;
+    private String gender;
+    private String race;
 
     public Player build() {
+        notEmpty(serverId, "A serverId is required.");
+        notEmpty(userId, "A userId is required.");
         notEmpty(name, "A name is required.");
-        notNull(serverId, "A serverId is required.");
         notNull(gender, "A gender is required.");
-        return new Player(serverId, name, gender);
+        notEmpty(race, "A race is required.");
+        return new Player(serverId, userId, name, gender, race);
     }
 
     public PlayerBuilder setServerId(final String serverId) {
         this.serverId = serverId;
+        return this;
+    }
+
+    public PlayerBuilder setUserId(final String userId) {
+        this.userId = userId;
         return this;
     }
 
@@ -42,8 +51,13 @@ public class PlayerBuilder {
         return this;
     }
 
-    public PlayerBuilder setGender(final Gender gender) {
+    public PlayerBuilder setGender(final String gender) {
         this.gender = gender;
+        return this;
+    }
+
+    public PlayerBuilder setRace(final String race) {
+        this.race = race;
         return this;
     }
 }

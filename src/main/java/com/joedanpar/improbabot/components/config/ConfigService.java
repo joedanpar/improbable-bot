@@ -19,7 +19,6 @@ package com.joedanpar.improbabot.components.config;
 import com.joedanpar.improbabot.components.common.GenericService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.TransactionRequiredException;
@@ -34,7 +33,6 @@ public class ConfigService extends GenericService<ConfigDao, Config> {
         super(dao);
     }
 
-    @Transactional
     public List<Config> getConfig(final String serverId, final String name) {
         return getDao().getAllObjectsByName(serverId, name);
     }
@@ -43,32 +41,27 @@ public class ConfigService extends GenericService<ConfigDao, Config> {
         return Optional.ofNullable(getValuesByName(serverId, configName).get(0));
     }
 
-    @Transactional
     public List<String> getValuesByName(final String serverId, final String configName) {
-        return getDao().getValuesByKey(serverId, configName);
+        return getDao().getValuesByName(serverId, configName);
     }
 
-    @Transactional
     public void removeConfig(final Config config) {
         getDao().removeObject(config);
     }
 
-    @Transactional
     public void removeConfig(final String serverId, final String configName, final String configValue) {
         getDao().removeObject(serverId, configName, configValue);
     }
 
-    @Transactional
     public boolean createObject(final String serverId, final String configName, final String configValue) {
-        return createObject(new ConfigBuilder().setServerId(serverId).setKey(configName).setValue(configValue).build());
+        return createObject(new ConfigBuilder().setServerId(serverId).setName(configName).setValue(configValue).build());
     }
 
-    @Transactional
     public boolean createObject(final Config config) {
         try {
             getDao().saveObject(config);
         } catch (EntityExistsException | TransactionRequiredException e) {
-            log.error("Failed to create config {} with value {} for server {}", config.getKey(), config.getValue(),
+            log.error("Failed to create config {} with value {} for server {}", config.getName(), config.getValue(),
                       config.getServerId());
             log.error(e);
             return false;

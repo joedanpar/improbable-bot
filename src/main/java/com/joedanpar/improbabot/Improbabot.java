@@ -16,11 +16,7 @@
  ******************************************************************************/
 package com.joedanpar.improbabot;
 
-import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
-import net.dv8tion.jda.core.JDA;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -29,14 +25,6 @@ import org.springframework.context.annotation.ComponentScan;
 @Log4j2
 @ComponentScan({"com.joedanpar.improbabot"})
 public class Improbabot {
-    @Autowired
-    private JDA jda;
-
-    @Value("${db.sqliteUrl")
-    private String dbUrl;
-
-    @Getter
-    private boolean debug;
 
     @Bean
     public CommandLineRunner commandLineRunner(final ApplicationContext context) {

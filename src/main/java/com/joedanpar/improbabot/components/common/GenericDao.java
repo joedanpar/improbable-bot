@@ -18,55 +18,45 @@ package com.joedanpar.improbabot.components.common;
 
 import lombok.Getter;
 import lombok.val;
-import org.hibernate.SessionFactory;
 import org.springframework.core.GenericTypeResolver;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
 
+@Transactional
 public class GenericDao<T> {
 
     @Getter
-    private final Class<T>       type;
+    private final Class<T>      type;
     @Getter(PROTECTED)
-    protected     SessionFactory sessionFactory;
+    protected     EntityManager entityManager;
 
-    public GenericDao(final SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public GenericDao(final EntityManager sessionFactory) {
+        this.entityManager = sessionFactory;
         this.type = (Class<T>) GenericTypeResolver.resolveTypeArgument(getClass(), GenericDao.class);
     }
 
     public List<T> getAllObjectsByServerId(final String serverId) {
-        try (val session = sessionFactory.openSession()) {
-            val query = session.createQuery("FROM " + type.getName() + " where serverId = :serverId", type);
-            query.setParameter("serverId", serverId);
+        val query = entityManager.createQuery("FROM " + type.getName() + " where serverId = :serverId", type);
+        query.setParameter("serverId", serverId);
 
-            return query.getResultList();
-        }
+        return query.getResultList();
     }
 
     public void saveObject(final T obj) {
-        try (val session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            session.saveOrUpdate(obj);
-            session.getTransaction().commit();
-        }
+        entityManager.persist(obj);
     }
 
     public void removeObject(final T obj) {
-        try (val session = sessionFactory.openSession()) {
-            session.getTransaction();
-            session.delete(session.contains(obj)
-                                   ? obj
-                                   : session.merge(obj));
-            session.getTransaction().commit();
-        }
+        entityManager.remove(entityManager.contains(obj)
+                                     ? obj
+                                     : entityManager.merge(obj));
     }
 
     public List<T> getAllObjects() {
-        try (val session = sessionFactory.openSession()) {
-            return session.createQuery("FROM " + type.getName(), type).getResultList();
-        }
+        return entityManager.createQuery("FROM " + type.getName(), type).getResultList();
     }
 }

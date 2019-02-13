@@ -18,17 +18,22 @@ package com.joedanpar.improbabot.components.game;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @Entity
-@Table(name = "Game")
 public class Game {
 
     @Id
-    @GeneratedValue
-    @Column(name = "Id", nullable = false)
-    private int    id;
-    @Column(name = "ServerId", nullable = false)
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(nullable = false)
+    private int id;
+    @Column(nullable = false)
     private String serverId;
+
 }
