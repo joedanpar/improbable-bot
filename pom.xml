@@ -48,7 +48,7 @@
         <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
         <maven-spring-boot-plugin.version>2.0.2.RELEASE</maven-spring-boot-plugin.version>
 
-        <commons-collections.version>4.1</commons-collections.version>
+        <commons-collections.version>4.3</commons-collections.version>
         <commons-lang.version>3.8.1</commons-lang.version>
         <commons-io.version>2.6</commons-io.version>
         <commons-text.version>1.6</commons-text.version>
