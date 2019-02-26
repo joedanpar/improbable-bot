@@ -56,7 +56,7 @@
         <httpclient.version>4.5.7</httpclient.version>
         <jackson-databind.version>2.9.8</jackson-databind.version>
         <jda.version>3.8.1_437</jda.version>
-        <jda-utilities.version>2.1.4</jda-utilities.version>
+        <jda-utilities.version>2.1.5</jda-utilities.version>
         <log4j.version>2.11.2</log4j.version>
         <lombok.version>1.18.6</lombok.version>
         <recastai-java-api.version>0.0.1</recastai-java-api.version>
