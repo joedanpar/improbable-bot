@@ -57,7 +57,7 @@
         <jackson-databind.version>2.9.7</jackson-databind.version>
         <jda.version>3.8.1_437</jda.version>
         <jda-utilities.version>2.1.4</jda-utilities.version>
-        <log4j.version>2.8.2</log4j.version>
+        <log4j.version>2.11.2</log4j.version>
         <lombok.version>1.16.20</lombok.version>
         <recastai-java-api.version>0.0.1</recastai-java-api.version>
         <sqlite-jdbc.version>3.21.0.1</sqlite-jdbc.version>
