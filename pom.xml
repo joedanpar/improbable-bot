@@ -59,7 +59,7 @@
         <jda-utilities.version>2.1.5</jda-utilities.version>
         <log4j.version>2.11.2</log4j.version>
         <lombok.version>1.18.6</lombok.version>
-        <recastai-java-api.version>0.0.1</recastai-java-api.version>
+        <recastai-java-api.version>0.0.2</recastai-java-api.version>
         <sqlite-jdbc.version>3.21.0.1</sqlite-jdbc.version>
         <sqlite-dialect.version>0.1.0</sqlite-dialect.version>
     </properties>
