@@ -16,9 +16,6 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.game.player
 
-import net.dv8tion.jda.core.utils.Checks.notEmpty
-import net.dv8tion.jda.core.utils.Checks.notNull
-
 class PlayerBuilder {
 
     private var serverId: String? = null
@@ -28,11 +25,6 @@ class PlayerBuilder {
     private var race: String? = null
 
     fun build(): Player {
-        notEmpty(serverId!!, "A serverId is required.")
-        notEmpty(userId!!, "A userId is required.")
-        notEmpty(name!!, "A name is required.")
-        notNull(gender!!, "A gender is required.")
-        notEmpty(race!!, "A race is required.")
         return Player(serverId!!, userId!!, name!!, gender!!, race!!)
     }
 

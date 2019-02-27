@@ -17,19 +17,9 @@
 package com.joedanpar.improbabot.components.common
 
 object Emojis {
-
-    @JvmField
     val BUTTON = "🔳"
-
-    @JvmField
     val CHECK_MARK = "✅"
-
-    @JvmField
     val QUESTION_MARK = "❔"
-
-    @JvmField
     val CROSS_X = "❌"
-
-    @JvmField
     val CMD = "📜"
 }

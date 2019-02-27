@@ -19,10 +19,6 @@ package com.joedanpar.improbabot
 import java.time.OffsetDateTime.now
 
 object Constants {
-
-    @JvmField
     val STARTUP = now()
-
-    @JvmField
     val PREFIX = "!"
 }

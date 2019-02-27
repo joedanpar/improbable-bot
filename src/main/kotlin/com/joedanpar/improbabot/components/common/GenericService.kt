@@ -19,8 +19,9 @@ package com.joedanpar.improbabot.components.common
 
 open class GenericService<D : GenericDao<T>, T>(val dao: D) {
 
-    val allObjects: List<T>
-        get() = dao.allObjects
+    fun getAllObjects(): List<T> {
+        return dao.getAllObjects()
+    }
 
     fun getAllObjectsByServerId(serverId: String): List<T> {
         return dao.getAllObjectsByServerId(serverId)
