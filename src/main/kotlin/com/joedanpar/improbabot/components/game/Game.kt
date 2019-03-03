@@ -23,7 +23,7 @@ import javax.persistence.GenerationType.IDENTITY
 import javax.persistence.Id
 
 @Entity
-class Game(
+data class Game(
 
         @Id
         @GeneratedValue(strategy = IDENTITY)

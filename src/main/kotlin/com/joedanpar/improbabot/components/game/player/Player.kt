@@ -24,7 +24,7 @@ import javax.persistence.GenerationType.IDENTITY
 
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = ["serverId", "userId"])])
-class Player(
+data class Player(
 
         @Id
         @GeneratedValue(strategy = IDENTITY)

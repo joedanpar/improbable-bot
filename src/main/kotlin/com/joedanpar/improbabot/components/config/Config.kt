@@ -24,7 +24,7 @@ import javax.persistence.GenerationType.IDENTITY
 import javax.persistence.Id
 
 @Entity
-class Config(
+data class Config(
 
         @Id
         @GeneratedValue(strategy = IDENTITY)
