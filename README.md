@@ -1,2 +1,2 @@
 # improbable-bot
-A Java-based Discord bot that plays text-based RPGs, inspired by Improbable Island
+A JVM-based Discord bot written in Kotlin that plays text-based RPGs, inspired by Improbable Island
