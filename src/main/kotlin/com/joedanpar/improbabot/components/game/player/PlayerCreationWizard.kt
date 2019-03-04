@@ -33,7 +33,7 @@ import java.util.function.BiConsumer
 import java.util.function.Consumer
 
 internal class PlayerCreationWizard private constructor(waiter: EventWaiter, users: Set<User>, roles: Set<Role>,
-                                                        timeout: Long, unit: TimeUnit, private val builder: PlayerBuilder,
+                                                        timeout: Long, unit: TimeUnit, private val builder: Player.Builder,
                                                         private val service: PlayerService,
                                                         val embedColor: Color) : WizardDialog(waiter, users, roles, timeout, unit) {
 
@@ -123,7 +123,7 @@ internal class PlayerCreationWizard private constructor(waiter: EventWaiter, use
 
     class Builder : WizardDialog.Builder<Builder, PlayerCreationWizard>() {
 
-        private var playerBuilder: PlayerBuilder? = null
+        private var playerBuilder: Player.Builder? = null
         private var service: PlayerService? = null
         private var embedColor: Color? = null
 
@@ -132,7 +132,7 @@ internal class PlayerCreationWizard private constructor(waiter: EventWaiter, use
             return this
         }
 
-        fun setPlayerBuilder(playerBuilder: PlayerBuilder): Builder {
+        fun setPlayerBuilder(playerBuilder: Player.Builder): Builder {
             this.playerBuilder = playerBuilder
             return this
         }

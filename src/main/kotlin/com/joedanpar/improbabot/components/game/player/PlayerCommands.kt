@@ -36,7 +36,7 @@ class PlayerCommands @Autowired
 constructor(private val waiter: EventWaiter, private val service: PlayerService) {
 
     private val category = Category("Game")
-    private val builders = HashMap<Member, PlayerBuilder>()
+    private val builders = HashMap<Member, Player.Builder>()
 
     @Bean
     @Qualifier("rootCommand")
@@ -73,7 +73,7 @@ constructor(private val waiter: EventWaiter, private val service: PlayerService)
     }
 
     private fun createPlayer(event: CommandEvent) {
-        builders[event.member] = PlayerBuilder()
+        builders[event.member] = Player.Builder()
         val builder = builders[event.member]
         val args = event.args.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 

@@ -40,14 +40,14 @@ constructor(dao: PlayerDao) : GenericService<PlayerDao, Player>(dao), Logging {
     }
 
     fun createObject(serverId: String, userId: String, name: String, gender: String): Boolean {
-        return createObject(PlayerBuilder()
+        return createObject(Player.Builder()
                 .setServerId(serverId)
                 .setUserId(userId)
                 .setName(name)
                 .setGender(gender))
     }
 
-    private fun createObject(builder: PlayerBuilder): Boolean {
+    private fun createObject(builder: Player.Builder): Boolean {
         return createObject(builder.build())
     }
 

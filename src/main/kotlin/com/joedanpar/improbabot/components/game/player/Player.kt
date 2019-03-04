@@ -52,4 +52,41 @@ data class Player(
             .addField("Gender", gender, true)
             .addField("Race", race, true)
 
+    class Builder {
+
+        private var serverId: String? = null
+        private var userId: String? = null
+        private var name: String? = null
+        private var gender: String? = null
+        private var race: String? = null
+
+        fun setServerId(serverId: String): Builder {
+            this.serverId = serverId
+            return this
+        }
+
+        fun setUserId(userId: String): Builder {
+            this.userId = userId
+            return this
+        }
+
+        fun setName(name: String): Builder {
+            this.name = name
+            return this
+        }
+
+        fun setGender(gender: String): Builder {
+            this.gender = gender
+            return this
+        }
+
+        fun setRace(race: String): Builder {
+            this.race = race
+            return this
+        }
+
+        fun build(): Player {
+            return Player(serverId!!, userId!!, name!!, gender!!, race!!)
+        }
+    }
 }
