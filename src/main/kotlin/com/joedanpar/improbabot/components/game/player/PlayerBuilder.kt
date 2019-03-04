@@ -24,10 +24,6 @@ class PlayerBuilder {
     private var gender: String? = null
     private var race: String? = null
 
-    fun build(): Player {
-        return Player(serverId!!, userId!!, name!!, gender!!, race!!)
-    }
-
     fun setServerId(serverId: String): PlayerBuilder {
         this.serverId = serverId
         return this
@@ -51,5 +47,9 @@ class PlayerBuilder {
     fun setRace(race: String): PlayerBuilder {
         this.race = race
         return this
+    }
+
+    fun build(): Player {
+        return Player(serverId!!, userId!!, name!!, gender!!, race!!)
     }
 }
