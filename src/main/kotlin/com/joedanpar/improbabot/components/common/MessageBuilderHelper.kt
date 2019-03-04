@@ -24,7 +24,10 @@ import java.awt.Color
 import java.time.temporal.TemporalAccessor
 
 @Component
-class MessageBuilderHelper(private var messageBuilder: MessageBuilder = MessageBuilder(), private var embedBuilder: EmbedBuilder = EmbedBuilder()) {
+class MessageBuilderHelper(
+        private var messageBuilder: MessageBuilder = MessageBuilder(),
+        private var embedBuilder: EmbedBuilder = EmbedBuilder()
+) {
 
     fun setTitle(title: String): MessageBuilderHelper {
         embedBuilder.setTitle(title)

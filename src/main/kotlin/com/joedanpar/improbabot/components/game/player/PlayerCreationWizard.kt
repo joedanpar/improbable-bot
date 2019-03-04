@@ -42,94 +42,84 @@ internal class PlayerCreationWizard private constructor(waiter: EventWaiter, use
         reset()
     }
 
-    private fun buildDialogs(): Collection<Menu> {
-        return asList(buildNameDialog(),
-                buildGenderDialog(),
-                buildRaceDialog())
-    }
+    private fun buildDialogs(): Collection<Menu> = asList(buildNameDialog(),
+            buildGenderDialog(),
+            buildRaceDialog())
 
-    private fun buildNameDialog(): Menu {
-        return TextEntryDialog.Builder()
-                .setEventWaiter(waiter)
-                .setUsers(*users.toTypedArray())
-                .setRoles(*roles.toTypedArray())
-                .setColor(embedColor)
-                .setText("Please enter your player's name")
-                .setDescription("Name")
-                .setReactAction(BiConsumer { message, reaction ->
-                    builder.setServerId(message.guild.id)
-                            .setUserId(message.author.id)
-                            .setName((dialogs[currentMenu.previousIndex()] as TextEntryDialog).value)
-                    display(message)
-                })
-                .setFinalAction(Consumer { message ->
-                    message.delete().queue()
-                    reset()
-                })
-                .build()
-    }
+    private fun buildNameDialog(): Menu = TextEntryDialog.Builder()
+            .setEventWaiter(waiter)
+            .setUsers(*users.toTypedArray())
+            .setRoles(*roles.toTypedArray())
+            .setColor(embedColor)
+            .setText("Please enter your player's name")
+            .setDescription("Name")
+            .setReactAction(BiConsumer { message, reaction ->
+                builder.setServerId(message.guild.id)
+                        .setUserId(message.author.id)
+                        .setName((dialogs[currentMenu.previousIndex()] as TextEntryDialog).value)
+                display(message)
+            })
+            .setFinalAction(Consumer { message ->
+                message.delete().queue()
+                reset()
+            })
+            .build()
 
-    private fun buildGenderDialog(): Menu {
-        return SelectionDialog.Builder()
-                .setEventWaiter(waiter)
-                .setUsers(*users.toTypedArray())
-                .setRoles(*roles.toTypedArray())
-                .setColor(embedColor)
-                .setText("Please select your player's gender")
-                .setChoices(*genders)
-                .setDefaultEnds(BUTTON, "")
-                .setSelectedEnds(SELECT, "")
-                .useLooping(true)
-                .setSelectionConsumer { message, selection ->
-                    if (selection != 3) {
-                        builder.setGender(genders[selection!! - 1])
-                    } else {
-                        currentMenu.add(buildGenderEntryDialog(message))
-                    }
-
-                    display(message)
+    private fun buildGenderDialog(): Menu = SelectionDialog.Builder()
+            .setEventWaiter(waiter)
+            .setUsers(*users.toTypedArray())
+            .setRoles(*roles.toTypedArray())
+            .setColor(embedColor)
+            .setText("Please select your player's gender")
+            .setChoices(*genders)
+            .setDefaultEnds(BUTTON, "")
+            .setSelectedEnds(SELECT, "")
+            .useLooping(true)
+            .setSelectionConsumer { message, selection ->
+                if (selection != 3) {
+                    builder.setGender(genders[selection!! - 1])
+                } else {
+                    currentMenu.add(buildGenderEntryDialog(message))
                 }
-                .setCanceled { message -> message.delete().queue() }
-                .build()
-    }
 
-    private fun buildRaceDialog(): Menu {
-        return SelectionDialog.Builder()
-                .setEventWaiter(waiter)
-                .setUsers(*users.toTypedArray())
-                .setRoles(*roles.toTypedArray())
-                .setColor(embedColor)
-                .setText("Please select your player's Race")
-                .setChoices(*races)
-                .setDefaultEnds(BUTTON, "")
-                .setSelectedEnds(SELECT, "")
-                .useLooping(true)
-                .setSelectionConsumer { message, selection ->
-                    builder.setRace(races[selection!! - 1])
-                    display(message)
-                }
-                .setCanceled { message -> message.delete().queue() }
-                .build()
-    }
+                display(message)
+            }
+            .setCanceled { message -> message.delete().queue() }
+            .build()
 
-    private fun buildGenderEntryDialog(message: Message): Menu {
-        return TextEntryDialog.Builder()
-                .setEventWaiter(waiter)
-                .setUsers(*users.toTypedArray())
-                .setRoles(*roles.toTypedArray())
-                .setColor(embedColor)
-                .setDescription("Please enter your player's gender")
-                .setText("Gender")
-                .setReactAction(BiConsumer { response, reaction ->
-                    builder.setGender((dialogs[currentMenu.previousIndex()] as TextEntryDialog).value)
-                    display(message)
-                })
-                .setFinalAction(Consumer { response ->
-                    message.delete().queue()
-                    reset()
-                })
-                .build()
-    }
+    private fun buildRaceDialog(): Menu = SelectionDialog.Builder()
+            .setEventWaiter(waiter)
+            .setUsers(*users.toTypedArray())
+            .setRoles(*roles.toTypedArray())
+            .setColor(embedColor)
+            .setText("Please select your player's Race")
+            .setChoices(*races)
+            .setDefaultEnds(BUTTON, "")
+            .setSelectedEnds(SELECT, "")
+            .useLooping(true)
+            .setSelectionConsumer { message, selection ->
+                builder.setRace(races[selection!! - 1])
+                display(message)
+            }
+            .setCanceled { message -> message.delete().queue() }
+            .build()
+
+    private fun buildGenderEntryDialog(message: Message): Menu = TextEntryDialog.Builder()
+            .setEventWaiter(waiter)
+            .setUsers(*users.toTypedArray())
+            .setRoles(*roles.toTypedArray())
+            .setColor(embedColor)
+            .setDescription("Please enter your player's gender")
+            .setText("Gender")
+            .setReactAction(BiConsumer { response, reaction ->
+                builder.setGender((dialogs[currentMenu.previousIndex()] as TextEntryDialog).value)
+                display(message)
+            })
+            .setFinalAction(Consumer { response ->
+                message.delete().queue()
+                reset()
+            })
+            .build()
 
     class Builder : WizardDialog.Builder<Builder, PlayerCreationWizard>() {
 
