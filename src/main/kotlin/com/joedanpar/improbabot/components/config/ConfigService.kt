@@ -19,7 +19,6 @@ package com.joedanpar.improbabot.components.config
 import com.joedanpar.improbabot.components.common.GenericService
 import org.apache.logging.log4j.kotlin.Logging
 import org.springframework.stereotype.Service
-import java.util.*
 import javax.persistence.EntityExistsException
 import javax.persistence.TransactionRequiredException
 
@@ -30,8 +29,8 @@ class ConfigService(dao: ConfigDao) : GenericService<ConfigDao, Config>(dao), Lo
         return dao.getAllObjectsByName(serverId, name)
     }
 
-    fun getValueByName(serverId: String, configName: String): Optional<String> {
-        return Optional.ofNullable(getValuesByName(serverId, configName)[0])
+    fun getValueByName(serverId: String, configName: String): String? {
+        return getValuesByName(serverId, configName)[0]
     }
 
     private fun getValuesByName(serverId: String, configName: String): List<String> {
