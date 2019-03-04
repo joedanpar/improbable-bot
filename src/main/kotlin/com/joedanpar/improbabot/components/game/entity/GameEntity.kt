@@ -14,20 +14,18 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.config
+package com.joedanpar.improbabot.components.game.entity
 
 import com.joedanpar.improbabot.components.common.HasId
+import net.dv8tion.jda.core.EmbedBuilder
+import net.dv8tion.jda.core.entities.Message
 import java.util.*
-import javax.persistence.Column
 import javax.persistence.Entity
 
 @Entity
-data class Config(
+abstract class GameEntity : HasId(UUID.randomUUID()) {
 
-        @Column(nullable = false)
-        val serverId: String,
+    open fun toEmbed(): EmbedBuilder = EmbedBuilder()
 
-        @Column(nullable = false)
-        val name: String,
-
-        val value: String): HasId(UUID.randomUUID())
+    abstract fun render(): Message
+}

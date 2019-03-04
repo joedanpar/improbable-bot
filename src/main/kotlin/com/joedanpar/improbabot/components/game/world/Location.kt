@@ -14,20 +14,22 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.config
+package com.joedanpar.improbabot.components.game.world
 
 import com.joedanpar.improbabot.components.common.HasId
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
+import javax.persistence.ManyToMany
+import javax.persistence.MappedSuperclass
+import javax.persistence.OneToMany
 
-@Entity
-data class Config(
+@MappedSuperclass
+abstract class Location(
 
-        @Column(nullable = false)
-        val serverId: String,
+        val name: String?,
 
-        @Column(nullable = false)
-        val name: String,
+        @ManyToMany
+        val adjacentLocations: Set<Location> = HashSet(),
 
-        val value: String): HasId(UUID.randomUUID())
+        @OneToMany
+        val subLocations: Set<Location> = HashSet()
+) : HasId(UUID.randomUUID())

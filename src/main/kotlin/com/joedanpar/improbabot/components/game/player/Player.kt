@@ -16,38 +16,40 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.game.player
 
+import com.joedanpar.improbabot.components.game.entity.GameEntity
 import net.dv8tion.jda.core.EmbedBuilder
-import net.dv8tion.jda.core.entities.MessageEmbed
-import java.io.Serializable
-import javax.persistence.*
-import javax.persistence.GenerationType.IDENTITY
+import net.dv8tion.jda.core.MessageBuilder
+import net.dv8tion.jda.core.entities.Message
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Table
+import javax.persistence.UniqueConstraint
 
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = ["serverId", "userId"])])
 data class Player(
 
-        @Id
-        @GeneratedValue(strategy = IDENTITY)
-        @Column(nullable = false)
-        val id: Int?,
         @Column(nullable = false)
         val serverId: String,
+
         @Column(nullable = false)
         val userId: String,
+
         @Column(nullable = false)
         val name: String,
+
         @Column(nullable = false)
         val gender: String,
+
         @Column(nullable = false)
-        val race: String) : Serializable {
+        val race: String
+) : GameEntity() {
 
-    constructor(serverId: String, userId: String, name: String, gender: String, race: String) : this(null, serverId, userId, name, gender, race)
+    override fun render(): Message = MessageBuilder().setEmbed(toEmbed().build()).build()
 
-    private fun toEmbed(): MessageEmbed {
-        return EmbedBuilder().setTitle(name)
-                .addField("Gender", gender, true)
-                .addField("Race", race, true)
-                .build()
-    }
+    override fun toEmbed(): EmbedBuilder = super.toEmbed()
+            .setTitle(name)
+            .addField("Gender", gender, true)
+            .addField("Race", race, true)
 
 }

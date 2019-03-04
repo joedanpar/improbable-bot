@@ -22,10 +22,8 @@ import com.jagrosh.jdautilities.command.CommandBuilder
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter
 import com.joedanpar.improbabot.components.common.UserHelper
-import net.dv8tion.jda.core.EmbedBuilder
 import net.dv8tion.jda.core.entities.ChannelType.PRIVATE
 import net.dv8tion.jda.core.entities.Member
-import net.dv8tion.jda.core.entities.MessageEmbed
 import net.dv8tion.jda.core.utils.Checks.check
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -130,13 +128,7 @@ constructor(private val waiter: EventWaiter, private val service: PlayerService)
             service.getObjectsByUser(event.author.id)
         } else
             service.getAllObjectsByServerId(event.guild.id)) {
-            event.reply(renderPlayer(player))
+            event.reply(player.render())
         }
-    }
-
-    private fun renderPlayer(player: Player): MessageEmbed {
-        return EmbedBuilder().setTitle(player.name)
-                .addField("Gender", player.gender, false)
-                .build()
     }
 }

@@ -16,18 +16,19 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.game
 
+import com.joedanpar.improbabot.components.common.HasId
+import com.joedanpar.improbabot.components.game.world.World
+import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType.IDENTITY
-import javax.persistence.Id
+import javax.persistence.OneToOne
 
 @Entity
 data class Game(
 
-        @Id
-        @GeneratedValue(strategy = IDENTITY)
-        val id: Int?,
-
         @Column(nullable = false)
-        val serverId: String?)
+        val serverId: String?,
+
+        @OneToOne
+        val world: World
+) : HasId(UUID.randomUUID())
