@@ -47,7 +47,7 @@ class ConfigService(dao: ConfigDao) : GenericService<ConfigDao, Config>(dao), Lo
     }
 
     fun createObject(serverId: String, configName: String, configValue: String): Boolean {
-        return createObject(ConfigBuilder().setServerId(serverId).setName(configName).setValue(configValue).build())
+        return createObject(Config.Builder().setServerId(serverId).setName(configName).setValue(configValue).build())
     }
 
     private fun createObject(config: Config): Boolean {

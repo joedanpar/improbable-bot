@@ -67,7 +67,7 @@ constructor(private val service: ConfigService, private val messageHelper: Messa
     private fun addConfig(event: CommandEvent) {
         val args = event.args.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         check(args.size == 2, "Incorrect amount of arguments! Expected 2, Gave ${args.size}")
-        ConfigBuilder().setServerId(event.guild.id)
+        Config.Builder().setServerId(event.guild.id)
                 .setName(args[0])
                 .setValue(args[1])
                 .build()
@@ -84,7 +84,7 @@ constructor(private val service: ConfigService, private val messageHelper: Messa
     private fun removeConfig(event: CommandEvent) {
         val args = event.args.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         check(args.size == 2, "Incorrect amount of arguments! Expected 2, Gave ${args.size}")
-        service.removeObject(ConfigBuilder().setServerId(event.guild.id)
+        service.removeObject(Config.Builder().setServerId(event.guild.id)
                 .setName(args[0])
                 .setValue(args[1])
                 .build())

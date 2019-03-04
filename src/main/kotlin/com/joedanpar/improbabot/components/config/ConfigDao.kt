@@ -42,6 +42,6 @@ constructor(entityManager: EntityManager) : GenericDao<Config>(entityManager, Co
     }
 
     fun removeObject(serverId: String, configName: String, configValue: String) {
-        removeObject(ConfigBuilder().setServerId(serverId).setName(configName).setValue(configValue).build())
+        removeObject(Config.Builder().setServerId(serverId).setName(configName).setValue(configValue).build())
     }
 }

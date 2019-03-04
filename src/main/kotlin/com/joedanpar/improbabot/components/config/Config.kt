@@ -30,4 +30,31 @@ data class Config(
         @Column(nullable = false)
         val name: String,
 
-        val value: String): HasId(UUID.randomUUID())
+        val value: String) : HasId(UUID.randomUUID()
+) {
+    class Builder {
+
+        private var serverId: String? = null
+        private var name: String? = null
+        private var value: String? = null
+
+        fun build(): Config {
+            return Config(serverId!!, name!!, value!!)
+        }
+
+        fun setServerId(serverId: String): Builder {
+            this.serverId = serverId
+            return this
+        }
+
+        fun setName(name: String): Builder {
+            this.name = name
+            return this
+        }
+
+        fun setValue(value: String): Builder {
+            this.value = value
+            return this
+        }
+    }
+}
