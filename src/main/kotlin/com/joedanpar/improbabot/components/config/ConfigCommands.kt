@@ -36,37 +36,33 @@ constructor(private val service: ConfigService, private val messageHelper: Messa
 
     @Bean
     @Qualifier("rootCommand")
-    fun configCommand(@Qualifier("configCommand") commands: List<Command>): Command {
-        return CommandBuilder()
-                .setCategory(category)
-                .setName("config")
-                .setRequiredRole("admin")
-                .setArguments("{add|remove|list}")
-                .setHelp("Used in the configuration of Improbabot on a given server.")
-                .setChildren(commands)
-                .setHelpBiConsumer { event, command ->
-                    val sb = StringBuilder("Help for **${command.name}**:\n")
+    fun configCommand(@Qualifier("configCommand") commands: List<Command>): Command = CommandBuilder()
+            .setCategory(category)
+            .setName("config")
+            .setRequiredRole("admin")
+            .setArguments("{add|remove|list}")
+            .setHelp("Used in the configuration of Improbabot on a given server.")
+            .setChildren(commands)
+            .setHelpBiConsumer { event, command ->
+                val sb = StringBuilder("Help for **${command.name}**:\n")
 
-                    for (child in command.children) {
-                        sb.append("`${event.client.prefix}${child.name} ${child.arguments}` - ${child.help}\n")
-                    }
-
-                    event.replyInDm(sb.toString())
-                    event.reactSuccess()
+                for (child in command.children) {
+                    sb.append("`${event.client.prefix}${child.name} ${child.arguments}` - ${child.help}\n")
                 }
-                .build { command, event -> }
-    }
+
+                event.replyInDm(sb.toString())
+                event.reactSuccess()
+            }
+            .build { command, event -> }
 
     @Bean
     @Qualifier("configCommand")
-    private fun addConfigCommand(): Command {
-        return CommandBuilder()
-                .setCategory(category)
-                .setName("add")
-                .setRequiredRole("admin")
-                .setArguments("configKey configValue")
-                .build { command, event -> addConfig(event) }
-    }
+    fun addConfigCommand(): Command = CommandBuilder()
+            .setCategory(category)
+            .setName("add")
+            .setRequiredRole("admin")
+            .setArguments("configKey configValue")
+            .build { command, event -> addConfig(event) }
 
     private fun addConfig(event: CommandEvent) {
         val args = event.args.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -79,13 +75,11 @@ constructor(private val service: ConfigService, private val messageHelper: Messa
 
     @Bean
     @Qualifier("configCommand")
-    private fun removeConfigCommand(): Command {
-        return CommandBuilder()
-                .setCategory(category)
-                .setName("remove")
-                .setRequiredRole("admin")
-                .build { command, event -> removeConfig(event) }
-    }
+    fun removeConfigCommand(): Command = CommandBuilder()
+            .setCategory(category)
+            .setName("remove")
+            .setRequiredRole("admin")
+            .build { command, event -> removeConfig(event) }
 
     private fun removeConfig(event: CommandEvent) {
         val args = event.args.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -98,13 +92,11 @@ constructor(private val service: ConfigService, private val messageHelper: Messa
 
     @Bean
     @Qualifier("configCommand")
-    private fun listConfigsCommand(): Command {
-        return CommandBuilder()
-                .setCategory(category)
-                .setName("list")
-                .setRequiredRole("admin")
-                .build { command, event -> listConfigs(event) }
-    }
+    fun listConfigsCommand(): Command = CommandBuilder()
+            .setCategory(category)
+            .setName("list")
+            .setRequiredRole("admin")
+            .build { command, event -> listConfigs(event) }
 
     private fun listConfigs(event: CommandEvent) {
         val configsByServerId = service.getAllObjectsByServerId(event.guild.id)

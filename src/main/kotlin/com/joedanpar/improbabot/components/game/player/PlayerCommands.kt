@@ -64,11 +64,12 @@ constructor(private val waiter: EventWaiter, private val service: PlayerService)
 
     @Bean
     @Qualifier("playerCommand")
-    private fun createPlayerCommand(): Command {
+    fun createPlayerCommand(): Command {
         return CommandBuilder()
                 .setCategory(category)
                 .setName("create")
-                .setHelp("Starts the Player Creation Wizard if no arguments are given, otherwise simply creates a new player with the given arguments.")
+                .setHelp("Starts the Player Creation Wizard if no arguments are given, " +
+                        "otherwise simply creates a new player with the given arguments.")
                 .setArguments("name gender race")
                 .build { command, event -> createPlayer(event) }
     }
@@ -99,7 +100,7 @@ constructor(private val waiter: EventWaiter, private val service: PlayerService)
 
     @Bean
     @Qualifier("playerCommand")
-    private fun removePlayerCommand(): Command {
+    fun removePlayerCommand(): Command {
         return CommandBuilder()
                 .setCategory(category)
                 .setName("remove")
@@ -108,16 +109,16 @@ constructor(private val waiter: EventWaiter, private val service: PlayerService)
     }
 
     private fun removePlayer(event: CommandEvent) {
-        // TODO
+        TODO()
     }
 
     @Bean
     @Qualifier("playerCommand")
-    private fun listPlayersCommand(): Command {
+    fun listPlayersCommand(): Command {
         return CommandBuilder()
                 .setCategory(category)
                 .setName("list")
-                .setHelp("Lists all Players on the current server." +
+                .setHelp("Lists all Players on the current server.  " +
                         "When this command is run from a DM with Improbabot, " +
                         "it will instead list all Players you have across all servers.")
                 .setGuildOnly(false)
