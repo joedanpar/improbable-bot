@@ -19,13 +19,19 @@ package com.joedanpar.improbabot.components.game.world
 import com.joedanpar.improbabot.components.common.HasId
 import java.util.*
 import javax.persistence.ManyToMany
+import javax.persistence.ManyToOne
 import javax.persistence.MappedSuperclass
 import javax.persistence.OneToMany
 
 @MappedSuperclass
-abstract class Location(
+class Location(
 
         val name: String?,
+
+        val description: String?,
+
+        @ManyToOne
+        val OuterLocation: Location,
 
         @ManyToMany
         val adjacentLocations: Set<Location> = HashSet(),
