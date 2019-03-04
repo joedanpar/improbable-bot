@@ -17,13 +17,11 @@
 package com.joedanpar.improbabot.components.game.player
 
 import com.joedanpar.improbabot.components.game.entity.GameEntity
+import com.joedanpar.improbabot.components.game.world.Location
 import net.dv8tion.jda.core.EmbedBuilder
 import net.dv8tion.jda.core.MessageBuilder
 import net.dv8tion.jda.core.entities.Message
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Table
-import javax.persistence.UniqueConstraint
+import javax.persistence.*
 
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = ["serverId", "userId"])])
@@ -42,7 +40,10 @@ data class Player(
         val gender: String,
 
         @Column(nullable = false)
-        val race: String
+        val race: String,
+
+        @OneToOne
+        val currentLocation: Location?
 ) : GameEntity() {
 
     override fun render(): Message = MessageBuilder().setEmbed(toEmbed().build()).build()
@@ -51,6 +52,7 @@ data class Player(
             .setTitle(name)
             .addField("Gender", gender, true)
             .addField("Race", race, true)
+            .addField("Current Location", currentLocation?.name ?: "Unknown", true)
 
     class Builder {
 
@@ -86,7 +88,7 @@ data class Player(
         }
 
         fun build(): Player {
-            return Player(serverId!!, userId!!, name!!, gender!!, race!!)
+            return Player(serverId!!, userId!!, name!!, gender!!, race!!, null)
         }
     }
 }
