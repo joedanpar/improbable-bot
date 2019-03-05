@@ -18,24 +18,28 @@
 
 pipeline {
     agent any
+
     stages {
         stage('Build') {
             steps {
                 bat 'gradlew.bat build'
             }
         }
+
         stage('Sonar') {
             steps {
                 withCredentials([usernamePassword(credentialsId: '51fc6c9c-7764-40e5-af76-e88a00b57aad', passwordVariable: 'token', usernameVariable: 'username')]) {
-                    bat "gradlew.bat sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${token} -Dsonar.organization=${username}-github -Dsonar.projectKey=${username}_improbable-bot -Dsonar.branch.name=${env.BRANCH_NAME}"
+                    bat "gradlew.bat sonarqube -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${token} -Dsonar.organization=${username}-github -Dsonar.projectKey=${username}_improbable-bot -Dsonar.branch.name=${env.BRANCH_NAME}"
                 }
             }
         }
+
         stage('Archive') {
             steps {
                 archiveArtifacts artifacts: 'target/*.jar', onlyIfSuccessful: true
             }
         }
+
         stage('Deploy') {
             when {
                 branch 'master'
