@@ -17,83 +17,139 @@
 package com.joedanpar.improbabot.components.game.world
 
 import com.joedanpar.improbabot.components.common.HasId
-import java.util.*
-import javax.persistence.Entity
+import javax.persistence.*
+import javax.persistence.CascadeType.ALL
+import javax.persistence.DiscriminatorType.STRING
 import javax.persistence.FetchType.LAZY
-import javax.persistence.Inheritance
-import javax.persistence.InheritanceType.TABLE_PER_CLASS
-import javax.persistence.ManyToOne
-import javax.persistence.OneToMany
+import javax.persistence.InheritanceType.SINGLE_TABLE
 
 @Entity
-@Inheritance(strategy = TABLE_PER_CLASS)
-abstract class Location(
+@Inheritance(strategy = SINGLE_TABLE)
+@DiscriminatorColumn(name = "location_type", discriminatorType = STRING)
+abstract class Location: HasId() {
 
-        open val name: String? = "",
+    abstract val name: String?
 
-        open val description: String? = "",
+    abstract val description: String?
 
-        @ManyToOne(targetEntity = Location::class)
-        open val outerLocation: Location?,
+    @ManyToOne
+    open val parentLocation: Location? = null
 
-        @OneToMany(targetEntity = Location::class, mappedBy = "id", fetch = LAZY)
-        open val subLocations: Set<Location>?
-) : HasId(UUID.randomUUID())
+    @OneToMany
+    open val childLocations: Collection<Location>? = null
+}
 
 @Entity
+@DiscriminatorValue("World")
+data class World(
+
+        override val name: String,
+
+        override val description: String,
+
+        @OneToMany(
+                targetEntity = Continent::class,
+                fetch = LAZY,
+                cascade = [ALL],
+                orphanRemoval = true)
+        override val childLocations: Collection<Continent>
+) : Location()
+
+@Entity
+@DiscriminatorValue("Continent")
 data class Continent(
+
         override val name: String,
 
         override val description: String,
 
-        @OneToMany(targetEntity = Country::class, mappedBy = "id", fetch = LAZY)
-        val countries: Set<Country>
-) : Location(name, description, null, countries)
+        @ManyToOne(
+                targetEntity = World::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val parentLocation: World,
+
+        @OneToMany(
+                targetEntity = Country::class,
+                fetch = LAZY,
+                cascade = [ALL],
+                orphanRemoval = true)
+        override val childLocations: Collection<Country>
+) : Location()
 
 @Entity
+@DiscriminatorValue("Country")
 data class Country(
+
         override val name: String,
 
         override val description: String,
 
-        @ManyToOne(targetEntity = Continent::class)
-        val continent: Continent,
+        @ManyToOne(
+                targetEntity = Continent::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val parentLocation: Continent,
 
-        @OneToMany(targetEntity = Region::class, mappedBy = "id", fetch = LAZY)
-        val regions: Set<Region>
-) : Location(name, description, continent, regions)
+        @OneToMany(
+                targetEntity = Region::class,
+                fetch = LAZY,
+                cascade = [ALL],
+                orphanRemoval = true)
+        override val childLocations: Collection<Region>
+) : Location()
 
 @Entity
+@DiscriminatorValue("Region")
 data class Region(
         override val name: String,
 
         override val description: String,
 
-        @ManyToOne(targetEntity = Country::class)
-        val country: Country,
+        @ManyToOne(
+                targetEntity = Country::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val parentLocation: Country,
 
-        @OneToMany(targetEntity = LocalArea::class, mappedBy = "id", fetch = LAZY)
-        val localAreas: Set<LocalArea>
-) : Location(name, description, country, localAreas)
+        @OneToMany(
+                targetEntity = LocalArea::class,
+                fetch = LAZY,
+                cascade = [ALL],
+                orphanRemoval = true)
+        override val childLocations: Collection<LocalArea>
+) : Location()
 
 @Entity
+@DiscriminatorValue("LocalArea")
 data class LocalArea(
         override val name: String,
 
         override val description: String,
 
-        @ManyToOne(targetEntity = Region::class)
-        val region: Region,
+        @ManyToOne(
+                targetEntity = Region::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val parentLocation: Region,
 
-        @OneToMany(targetEntity = PointOfInterest::class, mappedBy = "id", fetch = LAZY)
-        val pointsofInterest: Set<PointOfInterest>
-) : Location(name, description, region, pointsofInterest)
+        @OneToMany(
+                targetEntity = PointOfInterest::class,
+                fetch = LAZY,
+                cascade = [ALL],
+                orphanRemoval = true)
+        override val childLocations: Collection<PointOfInterest>
+) : Location()
 
 @Entity
+@DiscriminatorValue("PointOfInterest")
 data class PointOfInterest(
         override val name: String,
         override val description: String,
 
-        @ManyToOne(targetEntity = LocalArea::class)
-        val localArea: LocalArea
-) : Location(name, description, localArea, null)
+        @ManyToOne(
+                targetEntity = LocalArea::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val parentLocation: LocalArea
+) : Location()
