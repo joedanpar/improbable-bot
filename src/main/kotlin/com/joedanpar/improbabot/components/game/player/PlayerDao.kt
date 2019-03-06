@@ -25,8 +25,7 @@ import javax.persistence.EntityManager
 
 @Repository
 @Transactional
-class PlayerDao @Autowired
-constructor(entityManager: EntityManager) : GenericDao<Player>(entityManager, Player::class.java), Logging {
+open class PlayerDao(@Autowired entityManager: EntityManager) : GenericDao<Player>(entityManager, Player::class.java), Logging {
 
     internal fun removePlayerByUser(serverId: String, userId: String) {
         logger.debug("Removing player for $serverId $userId")

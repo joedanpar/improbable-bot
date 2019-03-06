@@ -46,7 +46,7 @@ import javax.security.auth.login.LoginException
 
 @Configuration
 @ComponentScan("com.joedanpar.improbabot")
-class ApplicationBean : Logging {
+open class ApplicationBean : Logging {
 
     @Value("\${debugEnabled}")
     val isDebug: Boolean = false
@@ -72,7 +72,7 @@ class ApplicationBean : Logging {
     @Bean
     @Autowired
     @Throws(InterruptedException::class)
-    fun jda(waiter: EventWaiter, client: CommandClient): JDA {
+    open fun jda(waiter: EventWaiter, client: CommandClient): JDA {
         var jda: JDA? = null
 
         try {
@@ -91,17 +91,17 @@ class ApplicationBean : Logging {
     }
 
     @Bean
-    fun recastAPI(): RecastAPI {
+    open fun recastAPI(): RecastAPI {
         return RecastAPIBuilder(recastToken).build()
     }
 
     @Bean
-    fun eventWaiter(): EventWaiter {
+    open fun eventWaiter(): EventWaiter {
         return EventWaiter()
     }
 
     @Bean
-    fun guildSettingsManager(): GuildSettingsManager<*> {
+    open fun guildSettingsManager(): GuildSettingsManager<*> {
         return object : GuildSettingsManager<Any> {
             override fun getSettings(guild: Guild): Any? {
                 return null
@@ -110,12 +110,12 @@ class ApplicationBean : Logging {
     }
 
     @Bean
-    fun threadpool(): ExecutorService {
+    open fun threadpool(): ExecutorService {
         return newCachedThreadPool()
     }
 
     @Bean
-    fun sessionControllerAdapter(): SessionControllerAdapter {
+    open fun sessionControllerAdapter(): SessionControllerAdapter {
         return object : SessionControllerAdapter() {
             override fun runWorker() {
                 if (workerHandle == null) {
@@ -128,7 +128,7 @@ class ApplicationBean : Logging {
     }
 
     @Bean
-    fun commandListener(): CommandListener {
+    open fun commandListener(): CommandListener {
         return object : CommandListener {
 
             override fun onCommand(event: CommandEvent?, command: Command?) {
@@ -156,7 +156,7 @@ class ApplicationBean : Logging {
 
     @Bean
     @Autowired
-    fun commandClient(@Qualifier("rootCommand") commands: List<Command>,
+    open fun commandClient(@Qualifier("rootCommand") commands: List<Command>,
                       settingsManager: GuildSettingsManager<*>,
                       listener: CommandListener): CommandClient {
         return CommandClientBuilder()

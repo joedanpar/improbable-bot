@@ -25,8 +25,7 @@ import javax.persistence.EntityManager
 
 @Repository
 @Transactional
-class ConfigDao @Autowired
-constructor(entityManager: EntityManager) : GenericDao<Config>(entityManager, Config::class.java), Logging {
+open class ConfigDao(@Autowired entityManager: EntityManager) : GenericDao<Config>(entityManager, Config::class.java), Logging {
 
     fun getValuesByName(serverId: String, configName: String): List<String> {
         logger.debug("Getting config values for $serverId $configName")
