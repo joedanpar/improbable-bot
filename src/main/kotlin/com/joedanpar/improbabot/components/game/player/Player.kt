@@ -42,7 +42,7 @@ data class Player(
         @Column(nullable = false)
         val race: String,
 
-        @OneToOne
+        @ManyToOne
         val currentLocation: Location?
 ) : GameEntity() {
 
