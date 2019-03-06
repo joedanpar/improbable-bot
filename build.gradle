@@ -38,7 +38,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    compile 'net.dv8tion:JDA:3.8.3_460'
+    // Workaround for https://github.com/discord-java/opus-java/issues/1
+    compile('net.dv8tion:JDA:3.8.3_460'){
+        exclude group: 'club.minnced', module: 'opus-java'
+    }
+    compile 'club.minnced:opus-java:1.0.4'
+
     compile 'com.jagrosh:jda-utilities:2.1.5'
     compile 'com.jagrosh:jda-utilities-command:2.1.5'
     compile 'com.jagrosh:jda-utilities-menu:2.1.5'
