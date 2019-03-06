@@ -30,5 +30,5 @@ data class World(
         val name: String,
 
         @OneToMany
-        val continents: Set<Location> = HashSet()
+        val continents: Set<Continent> = HashSet()
 ): HasId(UUID.randomUUID())

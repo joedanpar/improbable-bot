@@ -18,24 +18,82 @@ package com.joedanpar.improbabot.components.game.world
 
 import com.joedanpar.improbabot.components.common.HasId
 import java.util.*
-import javax.persistence.ManyToMany
+import javax.persistence.Entity
+import javax.persistence.FetchType.LAZY
+import javax.persistence.Inheritance
+import javax.persistence.InheritanceType.TABLE_PER_CLASS
 import javax.persistence.ManyToOne
-import javax.persistence.MappedSuperclass
 import javax.persistence.OneToMany
 
-@MappedSuperclass
-class Location(
+@Entity
+@Inheritance(strategy = TABLE_PER_CLASS)
+abstract class Location(
 
-        val name: String?,
+        open val name: String? = "",
 
-        val description: String?,
+        open val description: String? = "",
 
-        @ManyToOne
-        val OuterLocation: Location,
+        @ManyToOne(targetEntity = Location::class)
+        open val outerLocation: Location?,
 
-        @ManyToMany
-        val adjacentLocations: Set<Location> = HashSet(),
-
-        @OneToMany
-        val subLocations: Set<Location> = HashSet()
+        @OneToMany(targetEntity = Location::class, mappedBy = "id", fetch = LAZY)
+        open val subLocations: Set<Location>?
 ) : HasId(UUID.randomUUID())
+
+@Entity
+data class Continent(
+        override val name: String,
+
+        override val description: String,
+
+        @OneToMany(targetEntity = Country::class, mappedBy = "id", fetch = LAZY)
+        val countries: Set<Country>
+) : Location(name, description, null, countries)
+
+@Entity
+data class Country(
+        override val name: String,
+
+        override val description: String,
+
+        @ManyToOne(targetEntity = Continent::class)
+        val continent: Continent,
+
+        @OneToMany(targetEntity = Region::class, mappedBy = "id", fetch = LAZY)
+        val regions: Set<Region>
+) : Location(name, description, continent, regions)
+
+@Entity
+data class Region(
+        override val name: String,
+
+        override val description: String,
+
+        @ManyToOne(targetEntity = Country::class)
+        val country: Country,
+
+        @OneToMany(targetEntity = LocalArea::class, mappedBy = "id", fetch = LAZY)
+        val localAreas: Set<LocalArea>
+) : Location(name, description, country, localAreas)
+
+@Entity
+data class LocalArea(
+        override val name: String,
+
+        override val description: String,
+
+        @ManyToOne(targetEntity = Region::class)
+        val region: Region,
+
+        @OneToMany(targetEntity = PointOfInterest::class, mappedBy = "id", fetch = LAZY)
+        val pointsofInterest: Set<PointOfInterest>
+) : Location(name, description, region, pointsofInterest)
+
+@Entity
+data class PointOfInterest(
+        override val name: String,
+        override val description: String,
+
+        @ManyToOne(targetEntity = LocalArea::class)
+        val localArea: LocalArea
+) : Location(name, description, localArea, null)
