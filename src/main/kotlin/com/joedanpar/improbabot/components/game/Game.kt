@@ -18,7 +18,6 @@ package com.joedanpar.improbabot.components.game
 
 import com.joedanpar.improbabot.components.common.HasId
 import com.joedanpar.improbabot.components.game.world.World
-import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.OneToOne
@@ -31,4 +30,4 @@ data class Game(
 
         @OneToOne
         val world: World
-) : HasId(UUID.randomUUID())
+) : HasId()

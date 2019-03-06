@@ -17,7 +17,6 @@
 package com.joedanpar.improbabot.components.config
 
 import com.joedanpar.improbabot.components.common.HasId
-import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 
@@ -30,8 +29,7 @@ data class Config(
         @Column(nullable = false)
         val name: String,
 
-        val value: String) : HasId(UUID.randomUUID()
-) {
+        val value: String) : HasId() {
     class Builder {
 
         private var serverId: String? = null

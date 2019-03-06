@@ -19,11 +19,10 @@ package com.joedanpar.improbabot.components.game.entity
 import com.joedanpar.improbabot.components.common.HasId
 import net.dv8tion.jda.core.EmbedBuilder
 import net.dv8tion.jda.core.entities.Message
-import java.util.*
 import javax.persistence.Entity
 
 @Entity
-abstract class GameEntity : HasId(UUID.randomUUID()) {
+abstract class GameEntity : HasId() {
 
     open fun toEmbed(): EmbedBuilder = EmbedBuilder()
 
