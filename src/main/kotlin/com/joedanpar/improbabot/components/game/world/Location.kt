@@ -34,6 +34,8 @@ abstract class Location : HasId() {
 
     abstract val size: Int
 
+    open val traversable: Boolean = false
+
     @ManyToOne(
             fetch = LAZY,
             cascade = [ALL])
@@ -183,6 +185,8 @@ data class LocalArea(
 
         override val size: Int,
 
+        override val traversable: Boolean = true,
+
         @ManyToOne(
                 targetEntity = Region::class,
                 fetch = LAZY,
@@ -214,6 +218,8 @@ data class PointOfInterest(
         override val description: String,
 
         override val size: Int,
+
+        override val traversable: Boolean = true,
 
         @OneToMany(
                 mappedBy = "start",
