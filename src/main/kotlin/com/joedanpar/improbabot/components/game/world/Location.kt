@@ -26,16 +26,28 @@ import javax.persistence.InheritanceType.SINGLE_TABLE
 @Entity
 @Inheritance(strategy = SINGLE_TABLE)
 @DiscriminatorColumn(name = "location_type", discriminatorType = STRING)
-abstract class Location: HasId() {
+abstract class Location : HasId() {
 
     abstract val name: String?
 
     abstract val description: String?
 
-    @ManyToOne
+    @ManyToOne(
+            fetch = LAZY,
+            cascade = [ALL])
     open val parentLocation: Location? = null
 
-    @OneToMany
+    @OneToMany(
+            mappedBy = "start",
+            fetch = LAZY,
+            cascade = [ALL])
+    open val adjacentLocations: Collection<Distance>? = null
+
+    @OneToMany(
+            mappedBy = "parentLocation",
+            fetch = LAZY,
+            cascade = [ALL],
+            orphanRemoval = true)
     open val childLocations: Collection<Location>? = null
 }
 
@@ -48,6 +60,14 @@ data class World(
         override val description: String,
 
         @OneToMany(
+                mappedBy = "start",
+                targetEntity = World::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val adjacentLocations: Collection<Distance>,
+
+        @OneToMany(
+                mappedBy = "parentLocation",
                 targetEntity = Continent::class,
                 fetch = LAZY,
                 cascade = [ALL],
@@ -70,6 +90,14 @@ data class Continent(
         override val parentLocation: World,
 
         @OneToMany(
+                mappedBy = "start",
+                targetEntity = Continent::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val adjacentLocations: Collection<Distance>? = null,
+
+        @OneToMany(
+                mappedBy = "parentLocation",
                 targetEntity = Country::class,
                 fetch = LAZY,
                 cascade = [ALL],
@@ -92,6 +120,14 @@ data class Country(
         override val parentLocation: Continent,
 
         @OneToMany(
+                mappedBy = "start",
+                targetEntity = Country::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val adjacentLocations: Collection<Distance>,
+
+        @OneToMany(
+                mappedBy = "parentLocation",
                 targetEntity = Region::class,
                 fetch = LAZY,
                 cascade = [ALL],
@@ -113,6 +149,14 @@ data class Region(
         override val parentLocation: Country,
 
         @OneToMany(
+                mappedBy = "start",
+                targetEntity = Region::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val adjacentLocations: Collection<Distance>,
+
+        @OneToMany(
+                mappedBy = "parentLocation",
                 targetEntity = LocalArea::class,
                 fetch = LAZY,
                 cascade = [ALL],
@@ -134,6 +178,14 @@ data class LocalArea(
         override val parentLocation: Region,
 
         @OneToMany(
+                mappedBy = "start",
+                targetEntity = LocalArea::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val adjacentLocations: Collection<Distance>,
+
+        @OneToMany(
+                mappedBy = "parentLocation",
                 targetEntity = PointOfInterest::class,
                 fetch = LAZY,
                 cascade = [ALL],
@@ -144,8 +196,17 @@ data class LocalArea(
 @Entity
 @DiscriminatorValue("PointOfInterest")
 data class PointOfInterest(
+
         override val name: String,
+
         override val description: String,
+
+        @OneToMany(
+                mappedBy = "start",
+                targetEntity = PointOfInterest::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val adjacentLocations: Collection<Distance>? = null,
 
         @ManyToOne(
                 targetEntity = LocalArea::class,
