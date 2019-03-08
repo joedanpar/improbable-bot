@@ -32,6 +32,8 @@ abstract class Location : HasId() {
 
     abstract val description: String?
 
+    abstract val size: Int
+
     @ManyToOne(
             fetch = LAZY,
             cascade = [ALL])
@@ -59,6 +61,8 @@ data class World(
 
         override val description: String,
 
+        override val size: Int,
+
         @OneToMany(
                 mappedBy = "start",
                 targetEntity = World::class,
@@ -82,6 +86,8 @@ data class Continent(
         override val name: String,
 
         override val description: String,
+
+        override val size: Int,
 
         @ManyToOne(
                 targetEntity = World::class,
@@ -113,6 +119,8 @@ data class Country(
 
         override val description: String,
 
+        override val size: Int,
+
         @ManyToOne(
                 targetEntity = Continent::class,
                 fetch = LAZY,
@@ -141,6 +149,8 @@ data class Region(
         override val name: String,
 
         override val description: String,
+
+        override val size: Int,
 
         @ManyToOne(
                 targetEntity = Country::class,
@@ -171,6 +181,8 @@ data class LocalArea(
 
         override val description: String,
 
+        override val size: Int,
+
         @ManyToOne(
                 targetEntity = Region::class,
                 fetch = LAZY,
@@ -200,6 +212,8 @@ data class PointOfInterest(
         override val name: String,
 
         override val description: String,
+
+        override val size: Int,
 
         @OneToMany(
                 mappedBy = "start",
