@@ -62,7 +62,7 @@ dependencies {
 
     compile 'com.nincodedo:recastai-java-api:0.0.2'
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test:2.1.3.RELEASE'
+    testCompile 'org.springframework.boot:spring-boot-starter-test:2.1.5.RELEASE'
 }
 
 group = 'com.joedanpar'
