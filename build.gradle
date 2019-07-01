@@ -48,7 +48,7 @@ dependencies {
     compile 'com.jagrosh:jda-utilities-command:2.1.5'
     compile 'com.jagrosh:jda-utilities-menu:2.1.5'
 
-    compile 'org.apache.logging.log4j:log4j-core:2.11.2'
+    compile 'org.apache.logging.log4j:log4j-core:2.12.0'
     compile 'org.apache.logging.log4j:log4j-api-kotlin:1.0.0'
 
     compile ('com.bernardomg.tabletop:dice:2.0.0'){
