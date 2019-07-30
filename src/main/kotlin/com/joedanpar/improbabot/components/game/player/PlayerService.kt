@@ -20,6 +20,7 @@ import com.joedanpar.improbabot.components.common.GenericService
 import org.apache.logging.log4j.kotlin.Logging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 import javax.persistence.EntityExistsException
 import javax.persistence.TransactionRequiredException
 
@@ -28,7 +29,11 @@ class PlayerService @Autowired constructor(
         private val repository: PlayerRepository
 ) : GenericService<PlayerRepository, Player>(repository), Logging {
 
-    fun findByServerAndUser(serverId: String, userId: String): Player {
+    fun findByServerId(serverId: String): List<Player> {
+        return repository.findByServerId(serverId)
+    }
+
+    fun findByServerAndUser(serverId: String, userId: String): Optional<Player> {
         logger.debug("Getting player for $serverId $userId")
         return repository.findByServerIdAndUserId(serverId, userId)
     }

@@ -25,6 +25,10 @@ import javax.persistence.TransactionRequiredException
 @Service
 class ConfigService(private val repository: ConfigRepository) : GenericService<ConfigRepository, Config>(repository), Logging {
 
+    fun findByServerId(serverId: String): List<Config> {
+        return repository.findByServerId(serverId)
+    }
+
     fun getConfig(serverId: String, name: String): List<Config> {
         logger.debug("Getting configs for $serverId $name")
         return repository.findByServerIdAndName(serverId, name)
