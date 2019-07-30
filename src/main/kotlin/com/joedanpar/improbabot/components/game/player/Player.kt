@@ -21,11 +21,12 @@ import com.joedanpar.improbabot.components.game.world.Location
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.MessageBuilder
 import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.entities.MessageEmbed
 import javax.persistence.*
 
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = ["serverId", "userId"])])
-data class Player(
+data class Player (
 
         @Column(nullable = false)
         override val serverId: String,
@@ -46,13 +47,15 @@ data class Player(
         val currentLocation: Location?
 ) : GameEntity(serverId) {
 
-    override fun render(): Message = MessageBuilder().setEmbed(toEmbed().build()).build()
 
-    override fun toEmbed(): EmbedBuilder = super.toEmbed()
+    override fun render(): Message = MessageBuilder().setEmbed(toEmbed()).build()
+
+    override fun toEmbed(): MessageEmbed = EmbedBuilder()
             .setTitle(name)
             .addField("Gender", gender, true)
             .addField("Race", race, true)
             .addField("Current Location", currentLocation?.name ?: "Unknown", true)
+            .build()
 
     class Builder {
 

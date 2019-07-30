@@ -14,13 +14,10 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.game.entity
+package com.joedanpar.improbabot.components.common
 
-import com.joedanpar.improbabot.components.common.Embeddable
-import com.joedanpar.improbabot.components.common.Renderable
-import com.joedanpar.improbabot.components.common.ServerEntity
+import net.dv8tion.jda.api.entities.Message
 
-abstract class GameEntity(
-        override val serverId: String
-) : ServerEntity(serverId), Embeddable, Renderable {
+interface Renderable {
+    fun render(): Message
 }
