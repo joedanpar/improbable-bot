@@ -21,10 +21,10 @@ import com.jagrosh.jdautilities.menu.Menu
 import com.joedanpar.improbabot.components.common.Emojis.CHECK_MARK
 import com.joedanpar.improbabot.components.common.Emojis.CROSS_X
 import com.joedanpar.improbabot.components.common.MessageBuilderHelper
-import net.dv8tion.jda.core.entities.*
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent
-import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent
-import net.dv8tion.jda.core.requests.RestAction
+import net.dv8tion.jda.api.entities.*
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
+import net.dv8tion.jda.api.requests.RestAction
 import java.awt.Color
 import java.util.concurrent.TimeUnit
 import java.util.function.BiConsumer

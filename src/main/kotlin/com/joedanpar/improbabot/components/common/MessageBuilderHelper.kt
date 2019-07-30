@@ -16,9 +16,9 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.common
 
-import net.dv8tion.jda.core.EmbedBuilder
-import net.dv8tion.jda.core.MessageBuilder
-import net.dv8tion.jda.core.entities.Message
+import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.MessageBuilder
+import net.dv8tion.jda.api.entities.Message
 import org.springframework.stereotype.Component
 import java.awt.Color
 import java.time.temporal.TemporalAccessor

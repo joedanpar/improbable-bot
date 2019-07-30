@@ -23,35 +23,37 @@ import javax.persistence.EntityExistsException
 import javax.persistence.TransactionRequiredException
 
 @Service
-class ConfigService(dao: ConfigDao) : GenericService<ConfigDao, Config>(dao), Logging {
+class ConfigService(private val repository: ConfigRepository) : GenericService<ConfigRepository, Config>(repository), Logging {
 
     fun getConfig(serverId: String, name: String): List<Config> {
-        return dao.getAllObjectsByName(serverId, name)
+        logger.debug("Getting configs for $serverId $name")
+        return repository.findByServerIdAndName(serverId, name)
     }
 
     fun getValueByName(serverId: String, configName: String): String? {
         return getValuesByName(serverId, configName)[0]
     }
 
-    private fun getValuesByName(serverId: String, configName: String): List<String> {
-        return dao.getValuesByName(serverId, configName)
+    fun getValuesByName(serverId: String, name: String): List<String> {
+        logger.debug("Getting config values for $serverId $name")
+        return repository.findByServerIdAndName(serverId, name).map { config -> config.value }
     }
 
     fun removeConfig(config: Config) {
-        dao.removeObject(config)
+        repository.delete(config)
     }
 
-    fun removeConfig(serverId: String, configName: String, configValue: String) {
-        dao.removeObject(serverId, configName, configValue)
+    fun removeConfig(serverId: String, name: String, value: String) {
+        repository.delete(Config.Builder().setServerId(serverId).setName(name).setValue(value).build())
     }
 
-    fun createObject(serverId: String, configName: String, configValue: String): Boolean {
-        return createObject(Config.Builder().setServerId(serverId).setName(configName).setValue(configValue).build())
+    fun createObject(serverId: String, name: String, value: String): Boolean {
+        return createObject(Config.Builder().setServerId(serverId).setName(name).setValue(value).build())
     }
 
     private fun createObject(config: Config): Boolean {
         try {
-            dao.saveObject(config)
+            repository.save(config)
         } catch (e: EntityExistsException) {
             logger.error("Failed to create config ${config.name} with value ${config.value} for server ${config.serverId}", e)
             return false

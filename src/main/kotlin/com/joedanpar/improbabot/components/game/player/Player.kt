@@ -18,9 +18,9 @@ package com.joedanpar.improbabot.components.game.player
 
 import com.joedanpar.improbabot.components.game.entity.GameEntity
 import com.joedanpar.improbabot.components.game.world.Location
-import net.dv8tion.jda.core.EmbedBuilder
-import net.dv8tion.jda.core.MessageBuilder
-import net.dv8tion.jda.core.entities.Message
+import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.MessageBuilder
+import net.dv8tion.jda.api.entities.Message
 import javax.persistence.*
 
 @Entity
@@ -28,7 +28,7 @@ import javax.persistence.*
 data class Player(
 
         @Column(nullable = false)
-        val serverId: String,
+        override val serverId: String,
 
         @Column(nullable = false)
         val userId: String,
@@ -44,7 +44,7 @@ data class Player(
 
         @ManyToOne
         val currentLocation: Location?
-) : GameEntity() {
+) : GameEntity(serverId) {
 
     override fun render(): Message = MessageBuilder().setEmbed(toEmbed().build()).build()
 

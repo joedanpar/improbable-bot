@@ -16,7 +16,7 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.config
 
-import com.joedanpar.improbabot.components.common.HasId
+import com.joedanpar.improbabot.components.common.ServerEntity
 import javax.persistence.Column
 import javax.persistence.Entity
 
@@ -24,12 +24,12 @@ import javax.persistence.Entity
 data class Config(
 
         @Column(nullable = false)
-        val serverId: String,
+        override val serverId: String,
 
         @Column(nullable = false)
         val name: String,
 
-        val value: String) : HasId() {
+        val value: String) : ServerEntity(serverId) {
     class Builder {
 
         private var serverId: String? = null

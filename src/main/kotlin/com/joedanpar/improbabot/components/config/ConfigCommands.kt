@@ -22,7 +22,6 @@ import com.jagrosh.jdautilities.command.CommandBuilder
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.joedanpar.improbabot.components.common.MessageBuilderHelper
 import com.joedanpar.improbabot.components.common.MessageHelper
-import net.dv8tion.jda.core.utils.Checks.check
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
@@ -66,7 +65,7 @@ constructor(private val service: ConfigService, private val messageHelper: Messa
 
     private fun addConfig(event: CommandEvent) {
         val args = event.args.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        check(args.size == 2, "Incorrect amount of arguments! Expected 2, Gave ${args.size}")
+        check(args.size == 2) { "Incorrect amount of arguments! Expected 2, Gave ${args.size}" }
         Config.Builder().setServerId(event.guild.id)
                 .setName(args[0])
                 .setValue(args[1])
@@ -83,8 +82,8 @@ constructor(private val service: ConfigService, private val messageHelper: Messa
 
     private fun removeConfig(event: CommandEvent) {
         val args = event.args.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        check(args.size == 2, "Incorrect amount of arguments! Expected 2, Gave ${args.size}")
-        service.removeObject(Config.Builder().setServerId(event.guild.id)
+        check(args.size == 2) { "Incorrect amount of arguments! Expected 2, Gave ${args.size}" }
+        service.delete(Config.Builder().setServerId(event.guild.id)
                 .setName(args[0])
                 .setValue(args[1])
                 .build())
@@ -99,7 +98,7 @@ constructor(private val service: ConfigService, private val messageHelper: Messa
             .build { command, event -> listConfigs(event) }
 
     private fun listConfigs(event: CommandEvent) {
-        val configsByServerId = service.getAllObjectsByServerId(event.guild.id)
+        val configsByServerId = service.findByServerId(event.guild.id)
         val serverName = event.guild.name
 
         if (configsByServerId.isEmpty()) {

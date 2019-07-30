@@ -24,19 +24,23 @@ import javax.persistence.EntityExistsException
 import javax.persistence.TransactionRequiredException
 
 @Service
-class PlayerService @Autowired
-constructor(dao: PlayerDao) : GenericService<PlayerDao, Player>(dao), Logging {
+class PlayerService @Autowired constructor(
+        private val repository: PlayerRepository
+) : GenericService<PlayerRepository, Player>(repository), Logging {
 
-    fun getObjectByUser(serverId: String, userId: String): Player {
-        return dao.getPlayerByUser(serverId, userId)
+    fun findByServerAndUser(serverId: String, userId: String): Player {
+        logger.debug("Getting player for $serverId $userId")
+        return repository.findByServerIdAndUserId(serverId, userId)
     }
 
-    fun getObjectsByUser(userId: String): List<Player> {
-        return dao.getPlayersByUser(userId)
+    fun findByUser(userId: String): List<Player> {
+        logger.debug("Getting players for $userId")
+        return repository.findByUserId(userId)
     }
 
-    fun removeObject(serverId: String, userId: String) {
-        dao.removePlayerByUser(serverId, userId)
+    fun delete(serverId: String, userId: String) {
+        logger.debug("Removing player for $serverId $userId")
+        repository.deleteByServerIdAndUserId(serverId, userId)
     }
 
     fun createObject(serverId: String, userId: String, name: String, gender: String): Boolean {
@@ -53,7 +57,7 @@ constructor(dao: PlayerDao) : GenericService<PlayerDao, Player>(dao), Logging {
 
     private fun createObject(player: Player): Boolean {
         try {
-            saveObject(player)
+            repository.save(player)
         } catch (e: EntityExistsException) {
             logger.error("Failed to add player \"${player.name}\" for server ${player.serverId}", e)
             return false

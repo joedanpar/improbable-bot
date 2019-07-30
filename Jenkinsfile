@@ -22,14 +22,14 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bat 'gradlew.bat build'
+                bat 'mvnw clean install'
             }
         }
 
         stage('Sonar') {
             steps {
                 withCredentials([usernamePassword(credentialsId: '51fc6c9c-7764-40e5-af76-e88a00b57aad', passwordVariable: 'token', usernameVariable: 'username')]) {
-                    bat "gradlew.bat sonarqube -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${token} -Dsonar.organization=${username}-github -Dsonar.projectKey=${username}_improbable-bot -Dsonar.branch.name=${env.BRANCH_NAME}"
+                    bat "mvnw sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${token} -Dsonar.organization=${username}-github -Dsonar.projectKey=${username}_improbable-bot -Dsonar.branch.name=${env.BRANCH_NAME}"
                 }
             }
         }

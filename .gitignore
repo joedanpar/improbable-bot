@@ -6,6 +6,8 @@
 /data
 /logs
 
+*.iml
+
 *.log.*.gz
 
 # Keep Run Configurations

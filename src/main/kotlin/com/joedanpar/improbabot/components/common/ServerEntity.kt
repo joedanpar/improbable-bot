@@ -16,32 +16,11 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.common
 
-import org.springframework.transaction.annotation.Transactional
-import javax.persistence.EntityManager
+import javax.persistence.Column
+import javax.persistence.MappedSuperclass
 
-@Transactional
-open class GenericDao<T>(protected var entityManager: EntityManager, protected val type: Class<T>) {
-
-    fun getAllObjects(): List<T> {
-        return entityManager.createQuery("FROM ${type.name}", type).resultList
-    }
-
-    fun getAllObjectsByServerId(serverId: String): List<T> {
-        val query = entityManager.createQuery("FROM ${type.name} where serverId = :serverId", type)
-        query.setParameter("serverId", serverId)
-
-        return query.resultList
-    }
-
-    fun saveObject(obj: T) {
-        entityManager.persist(obj)
-    }
-
-    fun removeObject(obj: T) {
-        entityManager.remove(if (entityManager.contains(obj)) {
-            obj
-        } else {
-            entityManager.merge(obj)
-        })
-    }
-}
+@MappedSuperclass
+abstract class ServerEntity(
+        @Column(nullable = false)
+        open val serverId: String?
+) : HasId()

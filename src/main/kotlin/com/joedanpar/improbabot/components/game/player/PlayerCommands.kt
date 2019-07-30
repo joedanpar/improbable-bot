@@ -22,9 +22,8 @@ import com.jagrosh.jdautilities.command.CommandBuilder
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter
 import com.joedanpar.improbabot.components.common.UserHelper
-import net.dv8tion.jda.core.entities.ChannelType.PRIVATE
-import net.dv8tion.jda.core.entities.Member
-import net.dv8tion.jda.core.utils.Checks.check
+import net.dv8tion.jda.api.entities.ChannelType.PRIVATE
+import net.dv8tion.jda.api.entities.Member
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
@@ -32,8 +31,10 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class PlayerCommands @Autowired
-constructor(private val waiter: EventWaiter, private val service: PlayerService) {
+class PlayerCommands @Autowired constructor(
+        private val waiter: EventWaiter,
+        private val service: PlayerService
+) {
 
     private val category = Category("Game")
     private val builders = HashMap<Member, Player.Builder>()
@@ -87,7 +88,7 @@ constructor(private val waiter: EventWaiter, private val service: PlayerService)
                     .build()
                     .display(event.channel)
         } else {
-            check(args.size >= 3, "Invalid number of arguments.")
+            check(args.size >= 3) { "Invalid number of arguments." }
             builder!!.setServerId(event.guild.id)
                     .setUserId(event.author.id)
                     .setName(args[0])
@@ -125,9 +126,9 @@ constructor(private val waiter: EventWaiter, private val service: PlayerService)
 
     private fun listPlayers(event: CommandEvent) {
         for (player in if (PRIVATE == event.channelType) {
-            service.getObjectsByUser(event.author.id)
+            service.findByUser(event.author.id)
         } else
-            service.getAllObjectsByServerId(event.guild.id)) {
+            service.findByServerId(event.guild.id)) {
             event.reply(player.render())
         }
     }

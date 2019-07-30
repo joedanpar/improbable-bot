@@ -14,23 +14,18 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-
-package com.joedanpar.improbabot.components.common
+package com.joedanpar.improbabot.components.config
 
 import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
-abstract class GenericService<R : CrudRepository<T, UUID>, T : ServerEntity>(private val repository: R) {
+@Repository
+@Transactional
+interface ConfigRepository : CrudRepository<Config, UUID> {
 
-    fun findAll(): Iterable<T> {
-        return repository.findAll()
-    }
+    fun findByServerId(serverId: String): List<Config>
 
-    fun save(obj: T) {
-        repository.save(obj)
-    }
-
-    fun delete(obj: T) {
-        repository.delete(obj)
-    }
+    fun findByServerIdAndName(serverId: String, name: String): List<Config>
 }

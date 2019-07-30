@@ -16,13 +16,13 @@
  ******************************************************************************/
 package com.joedanpar.improbabot.components.game.entity
 
-import com.joedanpar.improbabot.components.common.HasId
-import net.dv8tion.jda.core.EmbedBuilder
-import net.dv8tion.jda.core.entities.Message
-import javax.persistence.Entity
+import com.joedanpar.improbabot.components.common.ServerEntity
+import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.entities.Message
 
-@Entity
-abstract class GameEntity : HasId() {
+abstract class GameEntity(
+        override val serverId: String
+) : ServerEntity(serverId) {
 
     open fun toEmbed(): EmbedBuilder = EmbedBuilder()
 

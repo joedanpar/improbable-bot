@@ -24,14 +24,14 @@ import com.joedanpar.improbabot.components.common.Emojis.CROSS_X
 import com.joedanpar.improbabot.components.common.Emojis.QUESTION_MARK
 import com.nincodedo.recast.RecastAPI
 import com.nincodedo.recast.RecastAPIBuilder
-import net.dv8tion.jda.core.AccountType.BOT
-import net.dv8tion.jda.core.JDA
-import net.dv8tion.jda.core.JDABuilder
-import net.dv8tion.jda.core.OnlineStatus.DO_NOT_DISTURB
-import net.dv8tion.jda.core.entities.Game.playing
-import net.dv8tion.jda.core.entities.Guild
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent
-import net.dv8tion.jda.core.utils.SessionControllerAdapter
+import net.dv8tion.jda.api.AccountType.BOT
+import net.dv8tion.jda.api.JDA
+import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.OnlineStatus.DO_NOT_DISTURB
+import net.dv8tion.jda.api.entities.Activity.playing
+import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import net.dv8tion.jda.api.utils.SessionControllerAdapter
 import org.apache.logging.log4j.kotlin.Logging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -79,8 +79,8 @@ open class ApplicationBean : Logging {
             jda = JDABuilder(BOT)
                     .setToken(botToken)
                     .setStatus(DO_NOT_DISTURB)
-                    .setGame(playing("Loading..."))
-                    .addEventListener(waiter, client)
+                    .setActivity(playing("Loading..."))
+                    .addEventListeners(waiter, client)
                     .build()
         } catch (e: LoginException) {
             logger.error("Failed to login", e)
@@ -161,7 +161,7 @@ open class ApplicationBean : Logging {
                       listener: CommandListener): CommandClient {
         return CommandClientBuilder()
                 .setPrefix(PREFIX)
-                .setGame(playing("In Development"))
+                .setActivity(playing("In Development"))
                 .setOwnerId(ownerId)
                 .setServerInvite(serverInvite)
                 .setEmojis(CHECK_MARK, QUESTION_MARK, CROSS_X)

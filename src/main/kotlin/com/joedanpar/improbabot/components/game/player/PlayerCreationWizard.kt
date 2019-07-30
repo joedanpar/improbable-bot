@@ -23,9 +23,9 @@ import com.jagrosh.jdautilities.menu.SelectionDialog.SELECT
 import com.joedanpar.improbabot.components.common.Emojis.BUTTON
 import com.joedanpar.improbabot.components.dialog.TextEntryDialog
 import com.joedanpar.improbabot.components.dialog.WizardDialog
-import net.dv8tion.jda.core.entities.Message
-import net.dv8tion.jda.core.entities.Role
-import net.dv8tion.jda.core.entities.User
+import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.entities.Role
+import net.dv8tion.jda.api.entities.User
 import java.awt.Color
 import java.util.Arrays.asList
 import java.util.concurrent.TimeUnit

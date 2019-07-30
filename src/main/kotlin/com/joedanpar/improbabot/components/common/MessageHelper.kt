@@ -20,10 +20,10 @@ package com.joedanpar.improbabot.components.common
 import com.joedanpar.improbabot.components.common.Emojis.CHECK_MARK
 import com.joedanpar.improbabot.components.common.Emojis.CROSS_X
 import com.joedanpar.improbabot.components.common.Emojis.QUESTION_MARK
-import net.dv8tion.jda.core.entities.Emote
-import net.dv8tion.jda.core.entities.Message
-import net.dv8tion.jda.core.entities.MessageChannel
-import net.dv8tion.jda.core.entities.User
+import net.dv8tion.jda.api.entities.Emote
+import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.entities.MessageChannel
+import net.dv8tion.jda.api.entities.User
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils.isEmpty
 import java.lang.String.format
