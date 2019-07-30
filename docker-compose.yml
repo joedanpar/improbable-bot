@@ -4,5 +4,10 @@ services:
   app:
     build: .
     image: joedanpar/improbabot:latest
-    volumes:
-      - .:/data
+    ports:
+      - '8090:8090'
+    healthcheck:
+      test: curl --request GET --url http:localhost:8090/actuator/health || exit 1
+      interval: 45s
+      timeout: 10s
+      retries: 5

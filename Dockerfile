@@ -1,17 +1,19 @@
-FROM maven:3.5-jdk-8 as maven
+FROM maven:3.6-jdk-8-alpine as maven
 
-COPY ./pom.xml ./pom.xml
-
-RUN mvn dependency:go-offline -B
-
-COPY ./src ./src
-
-RUN mvn package
-
-FRO openjdk:8u171-jre-alpine
-ARG botToken
 WORKDIR /improbabot
 
+COPY pom.xml .
+
+RUN mvn -e -B dependency:resolve
+
+COPY src ./src
+
+RUN mvn -e -B package
+
+FROM openjdk:8-jre-alpine
+
 COPY --from=maven target/improbabot.jar ./
-RUN mkdir data
-ENTRYPOINT ["java", "-jar", "./improbabot.jar"]
+
+HEALTHCHECK CMD curl --request GET --url http://localhost:8090/actuator/health || exit 1
+
+CMD ["java", "-jar", "./improbabot.jar"]
