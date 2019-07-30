@@ -24,10 +24,12 @@ import javax.persistence.ManyToOne
 data class Distance(
 
         @ManyToOne
-        val start: Location,
+        val start: Location?,
 
         @ManyToOne
-        val end: Location,
+        val end: Location?,
 
         val distance: Int
-): HasId()
+) : HasId() {
+    constructor() : this(null, null, 0)
+}

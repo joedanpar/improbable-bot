@@ -30,4 +30,6 @@ data class Game(
 
         @OneToOne
         val world: World
-) : HasId()
+) : HasId() {
+        constructor(): this("", World())
+}

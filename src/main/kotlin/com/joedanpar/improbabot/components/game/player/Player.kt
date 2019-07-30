@@ -47,6 +47,7 @@ data class Player (
         val currentLocation: Location?
 ) : GameEntity(serverId) {
 
+    constructor(): this("", "", "", "", "", null)
 
     override fun render(): Message = MessageBuilder().setEmbed(toEmbed()).build()
 

@@ -79,7 +79,9 @@ data class World(
                 cascade = [ALL],
                 orphanRemoval = true)
         override val childLocations: Collection<Continent>
-) : Location()
+) : Location() {
+    constructor() : this("", "", 0, emptyList(), emptyList())
+}
 
 @Entity
 @DiscriminatorValue("Continent")
@@ -111,7 +113,9 @@ data class Continent(
                 cascade = [ALL],
                 orphanRemoval = true)
         override val childLocations: Collection<Country>
-) : Location()
+) : Location() {
+    constructor() : this("", "", 0, World(), emptyList(), emptyList())
+}
 
 @Entity
 @DiscriminatorValue("Country")
@@ -143,7 +147,9 @@ data class Country(
                 cascade = [ALL],
                 orphanRemoval = true)
         override val childLocations: Collection<Region>
-) : Location()
+) : Location() {
+    constructor() : this("", "", 0, Continent(), emptyList(), emptyList())
+}
 
 @Entity
 @DiscriminatorValue("Region")
@@ -174,7 +180,9 @@ data class Region(
                 cascade = [ALL],
                 orphanRemoval = true)
         override val childLocations: Collection<LocalArea>
-) : Location()
+) : Location() {
+    constructor() : this("", "", 0, Country(), emptyList(), emptyList())
+}
 
 @Entity
 @DiscriminatorValue("LocalArea")
@@ -207,7 +215,9 @@ data class LocalArea(
                 cascade = [ALL],
                 orphanRemoval = true)
         override val childLocations: Collection<PointOfInterest>
-) : Location()
+) : Location() {
+    constructor() : this("", "", 0, true, Region(), emptyList(), emptyList())
+}
 
 @Entity
 @DiscriminatorValue("PointOfInterest")
@@ -221,16 +231,18 @@ data class PointOfInterest(
 
         override val traversable: Boolean = true,
 
+        @ManyToOne(
+                targetEntity = LocalArea::class,
+                fetch = LAZY,
+                cascade = [ALL])
+        override val parentLocation: LocalArea,
+
         @OneToMany(
                 mappedBy = "start",
                 targetEntity = PointOfInterest::class,
                 fetch = LAZY,
                 cascade = [ALL])
-        override val adjacentLocations: Collection<Distance>? = null,
-
-        @ManyToOne(
-                targetEntity = LocalArea::class,
-                fetch = LAZY,
-                cascade = [ALL])
-        override val parentLocation: LocalArea
-) : Location()
+        override val adjacentLocations: Collection<Distance>? = null
+) : Location() {
+    constructor() : this("", "", 0, true, LocalArea(), emptyList())
+}

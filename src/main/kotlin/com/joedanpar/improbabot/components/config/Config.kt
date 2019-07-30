@@ -30,6 +30,8 @@ data class Config(
         val name: String,
 
         val value: String) : ServerEntity(serverId) {
+    constructor() : this("", "", "")
+
     class Builder {
 
         private var serverId: String? = null
