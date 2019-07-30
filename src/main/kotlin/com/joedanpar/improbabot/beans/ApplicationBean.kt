@@ -24,25 +24,24 @@ import com.joedanpar.improbabot.components.common.Emojis.CROSS_X
 import com.joedanpar.improbabot.components.common.Emojis.QUESTION_MARK
 import com.nincodedo.recast.RecastAPI
 import com.nincodedo.recast.RecastAPIBuilder
-import net.dv8tion.jda.api.AccountType.BOT
-import net.dv8tion.jda.api.JDA
-import net.dv8tion.jda.api.JDABuilder
-import net.dv8tion.jda.api.OnlineStatus.DO_NOT_DISTURB
 import net.dv8tion.jda.api.entities.Activity.playing
-import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import net.dv8tion.jda.api.hooks.ListenerAdapter
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder
+import net.dv8tion.jda.api.sharding.ShardManager
 import net.dv8tion.jda.api.utils.SessionControllerAdapter
 import org.apache.logging.log4j.kotlin.Logging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.CommandLineRunner
+import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import java.lang.System.gc
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors.newCachedThreadPool
-import javax.security.auth.login.LoginException
 
 @Configuration
 @ComponentScan("com.joedanpar.improbabot")
@@ -63,31 +62,8 @@ open class ApplicationBean : Logging {
     @Value("\${recastToken}")
     private val recastToken: String? = null
 
-    @Value("\${shardToken:}")
-    private val shardToken: String? = null
-
-    @Value("\${totalShards:-1}")
-    private val totalShards: Int = 0
-
     @Bean
-    @Autowired
-    @Throws(InterruptedException::class)
-    open fun jda(waiter: EventWaiter, client: CommandClient): JDA {
-        var jda: JDA? = null
-
-        try {
-            jda = JDABuilder(BOT)
-                    .setToken(botToken)
-                    .setStatus(DO_NOT_DISTURB)
-                    .setActivity(playing("Loading..."))
-                    .addEventListeners(waiter, client)
-                    .build()
-        } catch (e: LoginException) {
-            logger.error("Failed to login", e)
-        }
-
-        jda!!.awaitReady()
-        return jda
+    open fun commandLineRunner(context: ApplicationContext) = CommandLineRunner {
     }
 
     @Bean
@@ -102,11 +78,7 @@ open class ApplicationBean : Logging {
 
     @Bean
     open fun guildSettingsManager(): GuildSettingsManager<*> {
-        return object : GuildSettingsManager<Any> {
-            override fun getSettings(guild: Guild): Any? {
-                return null
-            }
-        }
+        return GuildSettingsManager<Any> { null }
     }
 
     @Bean
@@ -157,8 +129,8 @@ open class ApplicationBean : Logging {
     @Bean
     @Autowired
     open fun commandClient(@Qualifier("rootCommand") commands: List<Command>,
-                      settingsManager: GuildSettingsManager<*>,
-                      listener: CommandListener): CommandClient {
+                           settingsManager: GuildSettingsManager<*>,
+                           listener: CommandListener): CommandClient {
         return CommandClientBuilder()
                 .setPrefix(PREFIX)
                 .setActivity(playing("In Development"))
@@ -173,5 +145,10 @@ open class ApplicationBean : Logging {
                 //                .setHelpConsumer(event -> event.replyInDm(event, this), m -> {})
                 .setDiscordBotsKey(botToken)
                 .build()
+    }
+
+    @Bean
+    open fun shardManager(listenerAdapters: List<ListenerAdapter>): ShardManager {
+        return DefaultShardManagerBuilder(botToken!!).addEventListeners(listenerAdapters).build()
     }
 }
