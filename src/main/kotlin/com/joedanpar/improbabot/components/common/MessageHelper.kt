@@ -36,8 +36,7 @@ class MessageHelper {
         sendMessage(channel, message, asList(*parameters))
     }
 
-    fun sendMessage(channel: MessageChannel, message: String,
-                    parameters: Collection<String>) {
+    fun sendMessage(channel: MessageChannel, message: String, parameters: Collection<String>) {
         if (isEmpty(parameters)) {
             channel.sendMessage(message).queue()
         } else {
