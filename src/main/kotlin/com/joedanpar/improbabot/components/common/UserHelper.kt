@@ -17,10 +17,11 @@
 package com.joedanpar.improbabot.components.common
 
 import java.awt.Color
+import java.awt.Color.BLUE
 import java.awt.image.BufferedImage
 import java.io.IOException
 import java.net.URL
-import javax.imageio.ImageIO
+import javax.imageio.ImageIO.read
 
 class UserHelper {
 
@@ -28,16 +29,16 @@ class UserHelper {
 
         fun getAverageColor(avatarUrl: String?): Color {
             return if (avatarUrl.isNullOrEmpty()) {
-                Color.BLUE
+                BLUE
             } else {
                 try {
                     val connection = URL(avatarUrl).openConnection()
 
                     connection.setRequestProperty("User-Agent", "NING/1.0")
-                    val image = ImageIO.read(connection.getInputStream())
-                    UserHelper.getAverageColor(image)
+                    val image = read(connection.getInputStream())
+                    getAverageColor(image)
                 } catch (e: IOException) {
-                    Color.BLUE
+                    BLUE
                 }
             }
         }
