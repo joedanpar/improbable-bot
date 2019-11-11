@@ -50,7 +50,7 @@
         <log4j.version>2.12.0</log4j.version>
         <log4j-kotlin.version>1.0.0</log4j-kotlin.version>
 
-        <jda.version>4.BETA.0_28</jda.version>
+        <jda.version>4.0.0_59</jda.version>
         <jda-utilities.version>3.0.1</jda-utilities.version>
 
         <assertj.version>3.13.1</assertj.version>
