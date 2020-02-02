@@ -28,4 +28,6 @@ abstract class HasId (
     val id: UUID?
 ) {
     constructor(): this(UUID.randomUUID())
+    constructor(uuid: String): this(UUID.fromString(uuid))
+    constructor(seed: ByteArray): this(UUID.nameUUIDFromBytes(seed))
 }
