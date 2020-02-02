@@ -47,7 +47,7 @@
         <jackson-databind.version>2.9.9.1</jackson-databind.version>
         <recastai-java-api.version>0.0.2</recastai-java-api.version>
 
-        <log4j.version>2.12.0</log4j.version>
+        <log4j.version>2.13.0</log4j.version>
         <log4j-kotlin.version>1.0.0</log4j-kotlin.version>
 
         <jda.version>4.BETA.0_28</jda.version>
