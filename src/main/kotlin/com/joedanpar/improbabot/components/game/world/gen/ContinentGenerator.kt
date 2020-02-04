@@ -14,22 +14,31 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.game
+package com.joedanpar.improbabot.components.game.world.gen
 
-import com.joedanpar.improbabot.components.common.HasId
+import com.joedanpar.improbabot.components.game.world.location.Continent
+import com.joedanpar.improbabot.components.game.world.location.Country
 import com.joedanpar.improbabot.components.game.world.location.World
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.OneToOne
+import org.springframework.stereotype.Service
 
-@Entity
-data class Game(
+@Service
+class ContinentGenerator(
+        private val seed: Int,
+        override val parent: World
+) : LocationGenerator<Continent, World, Country>(seed, parent, 1, 2) {
+    override fun generate(): Continent {
+        val continent = Continent.Builder()
+                .setName("TestContinent")
+                .setDescription("Test Continent")
+                .setParentLocation(parent)
+                .build()
 
-        @Column(nullable = false)
-        val serverId: String?,
+        continent.childLocations.addAll(generateChildren(continent))
 
-        @OneToOne
-        val world: World
-) : HasId() {
-        constructor(): this("", World())
+        return continent
+    }
+
+    override fun generateChild(parent: Continent): Country {
+        return CountryGenerator(random.nextInt(), parent).generate()
+    }
 }

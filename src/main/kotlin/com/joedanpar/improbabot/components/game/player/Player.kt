@@ -17,7 +17,7 @@
 package com.joedanpar.improbabot.components.game.player
 
 import com.joedanpar.improbabot.components.game.entity.GameEntity
-import com.joedanpar.improbabot.components.game.world.Location
+import com.joedanpar.improbabot.components.game.world.location.Location
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.MessageBuilder
 import net.dv8tion.jda.api.entities.Message

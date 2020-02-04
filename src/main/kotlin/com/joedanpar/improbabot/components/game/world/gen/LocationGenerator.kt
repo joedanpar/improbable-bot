@@ -14,22 +14,27 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.game.world
+package com.joedanpar.improbabot.components.game.world.gen
 
-import com.joedanpar.improbabot.components.common.HasId
-import javax.persistence.Entity
-import javax.persistence.ManyToOne
+import com.joedanpar.improbabot.components.game.world.location.Location
+import kotlin.random.Random
 
-@Entity
-data class Distance(
+abstract class LocationGenerator<T : Location, P : Location, C : Location>(
+        seed: Int,
+        protected open val parent: P?,
+        private val minChildren: Int,
+        private val maxChildren: Int) {
+    protected val random = Random(seed)
 
-        @ManyToOne
-        val start: Location?,
+    abstract fun generate(): T
 
-        @ManyToOne
-        val end: Location?,
+    protected fun generateChildren(parent: T): Collection<C> {
+        val children = mutableListOf<C>()
+        for (i in 0..random.nextInt(minChildren, maxChildren)) {
+            children.add(generateChild(parent))
+        }
+        return children
+    }
 
-        val distance: Int
-) : HasId() {
-    constructor() : this(null, null, 0)
+    abstract fun generateChild(parent: T): C
 }

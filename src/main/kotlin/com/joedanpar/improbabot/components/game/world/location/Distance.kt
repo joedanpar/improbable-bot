@@ -14,22 +14,22 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Improbable Bot.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.joedanpar.improbabot.components.game
+package com.joedanpar.improbabot.components.game.world.location
 
 import com.joedanpar.improbabot.components.common.HasId
-import com.joedanpar.improbabot.components.game.world.location.World
-import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.OneToOne
+import javax.persistence.ManyToOne
 
 @Entity
-data class Game(
+data class Distance(
 
-        @Column(nullable = false)
-        val serverId: String?,
+        @ManyToOne
+        val start: Location?,
 
-        @OneToOne
-        val world: World
+        @ManyToOne
+        val end: Location?,
+
+        val distance: Int
 ) : HasId() {
-        constructor(): this("", World())
+    constructor() : this(null, null, 0)
 }
