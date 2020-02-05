@@ -18,23 +18,23 @@ package com.joedanpar.improbabot.components.game.world.gen
 
 import com.joedanpar.improbabot.components.game.world.location.LocalArea
 import com.joedanpar.improbabot.components.game.world.location.Location
-import com.joedanpar.improbabot.components.game.world.location.River
+import com.joedanpar.improbabot.components.game.world.location.PointOfInterest
 import org.springframework.stereotype.Service
 
 @Service
-class RiverGenerator(
+class PointOfInterestGenerator(
         private val seed: Int,
         override val parent: LocalArea
-) : LocationGenerator<River, LocalArea, Location>(seed, parent, 16, 32) {
-    override fun generate(): River {
-        return River.Builder()
-                .setName("TestRiver")
-                .setDescription("Test River")
+) : LocationGenerator<PointOfInterest, LocalArea, Location>(seed, parent, 16, 32) {
+    override fun generate(): PointOfInterest {
+        return PointOfInterest.Builder()
+                .setName("TestPOI")
+                .setDescription("Test Point of Interest")
                 .setParentLocation(parent)
                 .build()
     }
 
-    override fun generateChild(parent: River): Location {
+    override fun generateChild(parent: PointOfInterest): Location {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

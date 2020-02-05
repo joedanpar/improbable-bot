@@ -17,13 +17,15 @@
 package com.joedanpar.improbabot.components.game.world.location
 
 import javax.persistence.CascadeType.ALL
+import javax.persistence.DiscriminatorValue
+import javax.persistence.Entity
 import javax.persistence.FetchType.LAZY
 import javax.persistence.ManyToOne
-import javax.persistence.MappedSuperclass
 import javax.persistence.OneToMany
 
-@MappedSuperclass
-abstract class PointOfInterest(
+@Entity
+@DiscriminatorValue("River")
+class PointOfInterest(
 
         override val name: String,
 
@@ -48,5 +50,10 @@ abstract class PointOfInterest(
 ) : Location() {
     constructor() : this("", "", 0, true, LocalArea(), mutableSetOf())
 
-    abstract class Builder<T : PointOfInterest> : Location.Builder<T, LocalArea, Location>()
+    class Builder : Location.Builder<PointOfInterest, LocalArea, Location>() {
+        override fun build(): PointOfInterest {
+            return PointOfInterest(name!!, description!!, size!!, true, parentLocation!!, adjacentLocations)
+        }
+
+    }
 }

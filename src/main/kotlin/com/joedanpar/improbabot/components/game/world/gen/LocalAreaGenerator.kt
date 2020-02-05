@@ -39,6 +39,6 @@ class LocalAreaGenerator(
     }
 
     override fun generateChild(parent: LocalArea): PointOfInterest {
-        return RiverGenerator(random.nextInt(), parent).generate()
+        return PointOfInterestGenerator(random.nextInt(), parent).generate()
     }
 }
